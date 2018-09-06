@@ -6,12 +6,12 @@
 
     <!-- Project Object Model -->
 
-    <name>L01.1-maven</name>
+    <name>aristov01</name>
     <description>Code example for L01.1</description>
 
     <developers>
         <developer>
-            <name>tully</name>
+            <name>Aeuge</name>
         </developer>
     </developers>
 
@@ -19,7 +19,7 @@
     <!--parent>*</parent-->
 
     <groupId>ru.otus</groupId>
-    <artifactId>L01.1-maven</artifactId>
+    <artifactId>aristov01</artifactId>
     <version>2018-08</version>
 
     <properties>
