@@ -38,8 +38,7 @@ public class Main {
 
         List<Integer> result = new ArrayList<>();
         Collections.shuffle((List<Integer>)example);
-        //calcTime(() -> result.addAll(Lists.reverse((List<Integer>)example)));
-        result.addAll(Lists.reverse((List<Integer>)example));
+        calcTime(() -> result.addAll(Lists.reverse((List<Integer>)example)));
     }
 
     private static void calcTime(Runnable runnable) {
