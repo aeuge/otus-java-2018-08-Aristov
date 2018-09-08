@@ -107,11 +107,8 @@
                     <proguardVersion>6.0.3</proguardVersion>
                     <options>
                         <option>-dontwarn</option>
-                        <option>-dontnote</option>
-                        <option>-keepattributes InnerClasses</option>
-                        <option>-keep class ru.otus.l011.Main** </option>
-                        <option>-keepclassmembers class ru.otus.l011.Main** {*;}</option>
-                        <option>-keep class java.util.AbstractCollection**</option>
+                        <!--option>-dontnote</option-->
+                        <option>-keep public class ru.otus.l011.Main {public static void main(java.lang.String[]);} </option>
 
                         <!--option>-keep class com.google.common**</option>
                         <option>-keepclassmembers class com.google.common** {*;}</option-->
