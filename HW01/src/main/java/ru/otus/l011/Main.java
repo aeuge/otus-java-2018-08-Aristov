@@ -17,7 +17,10 @@ public class Main {
             example.add(i);
         }
 
-        calcTime(() -> Collections2.permutations((List<Integer>)example));
+        //calcTime(() -> Collections2.permutations((List<Integer>)example));
+        List<Integer> result = new ArrayList<>();
+        Collections.shuffle((List<Integer>)example);
+        calcTime(() -> result.addAll(Lists.reverse((List<Integer>)example)));
     }
 
     private static void calcTime(Runnable runnable) {

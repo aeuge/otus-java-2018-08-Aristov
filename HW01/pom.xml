@@ -105,6 +105,9 @@
                     <addMavenDescriptor>true</addMavenDescriptor>
                     <includeDependency>true</includeDependency>
                     <proguardVersion>6.0.3</proguardVersion>
+                    <libs>
+                        <lib>${java.home}/jmods/java.base.jmod</lib>
+                    </libs>
                     <options>
                         <option>-dontwarn</option>
                         <!--option>-dontnote</option-->
