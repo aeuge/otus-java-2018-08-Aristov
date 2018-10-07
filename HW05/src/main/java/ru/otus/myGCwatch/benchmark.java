@@ -5,8 +5,8 @@ import java.util.*;
 
 class Benchmark implements BenchmarkMBean {
     private volatile int size = 0;
-    private int TimeInterval = 10;//как часто выводить метрику
-    private int TimeOOM = 40;//когда упасть с ООМ
+    private int TimeInterval = 60;//как часто выводить метрику
+    private int TimeOOM = 300;//когда упасть с ООМ
     private Timer mTimer = new Timer();
     private Timer mTimerOOM = new Timer();
     private List<String> OOMlist = new ArrayList<>();
