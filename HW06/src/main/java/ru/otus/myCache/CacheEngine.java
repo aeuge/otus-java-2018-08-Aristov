@@ -1,8 +1,5 @@
 package ru.otus.myCache;
 
-/**
- * Created by tully.
- */
 public interface CacheEngine<K, V> {
 
     void put(MyElement<K, V> element);

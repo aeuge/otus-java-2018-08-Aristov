@@ -1,19 +1,22 @@
 package ru.otus.myCache;
 
+import java.lang.ref.SoftReference;
+
 /**
- * Created by tully.
+ * Created by Aeuge.
+ * cache with SoftReference
  */
 @SuppressWarnings("WeakerAccess")
 public class MyElement<K, V> {
     private final K key;
-    private final V value;
+    private final SoftReference<V> value;
     private final long creationTime;
     private long lastAccessTime;
 
 
     public MyElement(K key, V value) {
         this.key = key;
-        this.value = value;
+        this.value = new SoftReference(value);
         this.creationTime = getCurrentTime();
         this.lastAccessTime = getCurrentTime();
     }
@@ -27,7 +30,7 @@ public class MyElement<K, V> {
     }
 
     public V getValue() {
-        return value;
+        return value.get();
     }
 
     public long getCreationTime() {

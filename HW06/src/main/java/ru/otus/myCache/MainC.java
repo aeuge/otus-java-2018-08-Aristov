@@ -6,12 +6,12 @@ package ru.otus.myCache;
 public class MainC {
 
     public static void main(String[] args) throws InterruptedException {
-        new MainC().lifeCacheExample();
+        new MainC().CacheExample();
     }
 
-    private void lifeCacheExample() throws InterruptedException {
-        int size = 5;
-        CacheEngine<Integer, String> cache = new CacheEngineImpl<>(size, 0, 2000, false);
+    private void CacheExample() throws InterruptedException {
+        int size = 6_500_000;
+        CacheEngine<Integer, String> cache = new CacheEngineImpl<>(size, 3000000, 0, false);
 
         for (int i = 0; i < size; i++) {
             cache.put(new MyElement<>(i, "String: " + i));
@@ -19,7 +19,7 @@ public class MainC {
 
         for (int i = 0; i < size; i++) {
             MyElement<Integer, String> element = cache.get(i);
-            System.out.println("String for " + i + ": " + (element != null ? element.getValue() : "null"));
+            //System.out.println("String for " + i + ": " + (element != null ? element.getValue() : "null"));
         }
 
         System.out.println("Cache hits: " + cache.getHitCount());
@@ -28,11 +28,12 @@ public class MainC {
         Thread.sleep(1000);
         MyElement<Integer, String> elementtemp = cache.get(2);
 
-        Thread.sleep(3000);
+        System.gc();
+        Thread.sleep(30000);
 
         for (int i = 0; i < size; i++) {
             MyElement<Integer, String> element = cache.get(i);
-            System.out.println("String for " + i + ": " + (element != null ? element.getValue() : "null"));
+            //System.out.println("String for " + i + ": " + (element != null ? element.getValue() : "null"));
         }
 
         System.out.println("Cache hits: " + cache.getHitCount());
