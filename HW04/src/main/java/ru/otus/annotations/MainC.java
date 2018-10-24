@@ -1,13 +1,9 @@
 package ru.otus.annotations;
 
 
-import java.io.DataInputStream;
-import java.io.InputStream;
 import java.lang.annotation.Annotation;
-import java.lang.reflect.Field;
 import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
-import java.net.URL;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -18,6 +14,7 @@ import com.google.common.reflect.ClassPath;
 public class MainC {
     final static String introspectClass = "ru.otus.annotations.ExampleClass";
     final static String introspectPackage = "java.lang.reflect";
+    final static String introspectPackage2 = "ru.otus.testanno";
 
     public static void main(String[] args) throws Exception {
 
@@ -35,9 +32,10 @@ public class MainC {
         ClassLoader classLoader = Thread.currentThread().getContextClassLoader();
         ClassPath classPath = ClassPath.from(classLoader);
         ImmutableSet<ClassPath.ClassInfo> classInfos = classPath.getTopLevelClasses(introspectPackage);
-
         System.out.println("всего классов "+classInfos.size());
-        for (ClassPath.ClassInfo c : classInfos) {
+        List<Class<?>> classes = ClassFinder.find(introspectPackage2);
+        System.out.println("всего классов 2 тип поиска: "+classes.size());
+        for (Class c : classes) {
             System.out.println("смотрим класс "+c.getName());
             testAnnotations2(c.getName());
         }
