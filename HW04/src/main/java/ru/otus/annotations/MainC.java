@@ -1,11 +1,18 @@
 package ru.otus.annotations;
 
 
+import java.io.IOException;
 import java.lang.annotation.Annotation;
 import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
+import java.net.URI;
+import java.nio.file.FileSystem;
+import java.nio.file.FileSystems;
+import java.nio.file.Files;
+import java.nio.file.Path;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.stream.Collectors;
 
 import com.google.common.collect.ImmutableSet;
 import com.google.common.reflect.ClassPath;
@@ -13,8 +20,9 @@ import com.google.common.reflect.ClassPath;
 
 public class MainC {
     final static String introspectClass = "ru.otus.annotations.ExampleClass";
-    final static String introspectPackage = "java.lang.reflect";
+    final static String introspectPackage = "com.google";
     final static String introspectPackage2 = "ru.otus.testanno";
+    final static String introspectPackage4 = "java.lang.reflect";
 
     public static void main(String[] args) throws Exception {
 
@@ -28,11 +36,13 @@ public class MainC {
                 testAnnotations2(clazz.getName());
             }
         }*/
-
+        //first way inner package
         ClassLoader classLoader = Thread.currentThread().getContextClassLoader();
         ClassPath classPath = ClassPath.from(classLoader);
         ImmutableSet<ClassPath.ClassInfo> classInfos = classPath.getTopLevelClasses(introspectPackage);
         System.out.println("всего классов "+classInfos.size());
+
+        //second
         List<Class<?>> classes = ClassFinder.find(introspectPackage2);
         System.out.println("всего классов 2 тип поиска: "+classes.size());
         for (Class c : classes) {
@@ -40,8 +50,36 @@ public class MainC {
             testAnnotations2(c.getName());
         }
 
+        //третий вариант
+        printClassCount("com.google",  ru.otus.annotations.MainC.class);
+
+        //fourth way
+        FileSystem fs = FileSystems.getFileSystem(URI.create("jrt:/"));
+
+        List<Path> classes4 = Files
+                .list(fs.getPath("modules", "java.base",introspectPackage4.replace(".","/")))
+                .map(Path::getFileName)
+                .filter(p -> p.toString().endsWith(".class") && !p.toString().contains("$"))
+                .collect(Collectors.toList());
+                //.forEach(System.out::println);
+        System.out.println("всего классов 4 тип поиска in "+introspectPackage4+": "+classes4.size());
+        for (Path c : classes4) {
+            System.out.println("смотрим класс "+introspectPackage4+"."+c.toString().replace(".class",""));
+            testAnnotations2(introspectPackage4+"."+c.toString().replace(".class",""));
+        }
+    }
+    private static void printClassCount(String packageName, Class classForClassLoader) {
+        System.out.println("Number of toplevel classes in " + packageName + ": " + countTopleveClassesInPackage(packageName, classForClassLoader));
     }
 
+    private static int countTopleveClassesInPackage(String packageName, Class clazz) {
+        try {
+            ClassPath classPath = ClassPath.from(clazz.getClassLoader());
+            return classPath.getTopLevelClassesRecursive(packageName).size();
+        } catch (IOException e) {
+            return 0;
+        }
+    }
 
 	public static void testAnnotations2(String str) throws ClassNotFoundException, NoSuchMethodException, IllegalAccessException, InstantiationException, InvocationTargetException {
 	    Class<?> cls = Class.forName(str);
