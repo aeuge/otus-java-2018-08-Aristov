@@ -84,7 +84,6 @@ public class MainC {
 	public static void testAnnotations2(String str) throws ClassNotFoundException, NoSuchMethodException, IllegalAccessException, InstantiationException, InvocationTargetException {
 	    Class<?> cls = Class.forName(str);
         Method[] methods = cls.getDeclaredMethods();
-        Object obj = cls.newInstance();
         ArrayList<Method> methodsBefore = new ArrayList();
         ArrayList<Method> methodsAfter = new ArrayList();
         ArrayList<Method> methodsTest = new ArrayList();
@@ -108,20 +107,24 @@ public class MainC {
             }
         }
 
-        for (Method m : methodsTest) {
-            try {
-                for (Method mB : methodsBefore) {
-                    mB.invoke(obj);
+        if (methodsBefore.size()>0||methodsAfter.size()>0||methodsTest.size()>0) {
+            Object obj = cls.newInstance();
+            for (Method m : methodsTest) {
+                try {
+                    for (Method mB : methodsBefore) {
+                        mB.invoke(obj);
+                    }
+                    m.invoke(obj);
+                } finally {
+                    for (Method mA : methodsAfter) {
+                        mA.invoke(obj);
+                    }
                 }
-                m.invoke(obj);
-            } finally {
-                for (Method mA : methodsAfter) {
-                    mA.invoke(obj);
-                }
+
+
             }
-
-
         }
+
 
 
 	}
