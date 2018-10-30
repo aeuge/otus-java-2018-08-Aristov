@@ -1,8 +1,8 @@
-package ru.otus.myarraylist;
+package ru.otus.MyArrayList;
 
 import java.util.*;
 
-public class MyArrayList<T> implements List<T>,RandomAccess {
+public class MyArrayList<T> implements List<T> {
     private static final Object[] EMPTY_ELEMENTDATA = {};
     private int size=0;
     transient Object[] myData;
@@ -52,7 +52,7 @@ public class MyArrayList<T> implements List<T>,RandomAccess {
 
     @Override
     public Iterator<T> iterator() {
-        return null;
+        throw new UnsupportedOperationException();
     }
 
     @Override
@@ -117,6 +117,7 @@ public class MyArrayList<T> implements List<T>,RandomAccess {
     public void clear() {
         //
     }
+
     T myData(int index) {
         return (T) myData[index];
     }
@@ -156,17 +157,98 @@ public class MyArrayList<T> implements List<T>,RandomAccess {
 
     @Override
     public ListIterator<T> listIterator() {
-        return null;
+        return listIterator(0);
+    }
+
+    private void rangeCheckForAdd(int index) {
+        if (index < 0 || index > size())
+            throw new IndexOutOfBoundsException("error");
     }
 
     @Override
     public ListIterator<T> listIterator(int index) {
-        return null;
+        rangeCheckForAdd(index);
+
+        return new ListItr(index);
+    }
+    protected transient int modCount = 0;
+
+    private class ListItr  implements ListIterator<T> {
+        int cursor = 0;
+
+        /**
+             * Index of element returned by most recent call to next or
+             * previous.  Reset to -1 if this element is deleted by a call
+             * to remove.
+             */
+        int lastRet = -1;
+
+        ListItr(int index) {
+            cursor = index;
+        }
+        @Override
+        public boolean hasNext() {
+            return false;
+        }
+
+        @Override
+        public T next() {
+            int i = cursor;
+            if (i >= size)
+                throw new NoSuchElementException();
+            Object[] elementData = myData;
+            if ( i >= myData.length)
+                throw new ConcurrentModificationException();
+            cursor = i + 1;
+            return (T) myData[(lastRet = i)];
+        }
+
+        @Override
+        public boolean hasPrevious() {
+            return false;
+        }
+
+        @Override
+        public T previous() {
+            return null;
+        }
+
+        @Override
+        public int nextIndex() {
+            return cursor;
+        }
+
+        @Override
+        public int previousIndex() {
+            return 0;
+        }
+
+        @Override
+        public void remove() {
+
+        }
+
+        @Override
+        public void set(T e) {
+            if (lastRet < 0)
+                throw new IllegalStateException();
+
+            try {
+                MyArrayList.this.set(lastRet, e);
+            } catch (IndexOutOfBoundsException ex) {
+                throw new ConcurrentModificationException();
+            }
+        }
+
+        @Override
+        public void add(T e) {
+
+        }
     }
 
     @Override
     public List<T> subList(int fromIndex, int toIndex) {
-        return null;
+        throw new UnsupportedOperationException();
     }
 
     @Override
