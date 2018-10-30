@@ -2,58 +2,58 @@ package ru.otus.ATM;
 
 import java.util.Objects;
 
-public class cashbox {
-    public cashbox(int value, int count) {
-        Value = value;
-        Count = count;
+public class Cashbox {
+    public Cashbox(int value, int count) {
+        this.value = value;
+        this.count = count;
     }
 
-    public cashbox(int value) {
-        Value = value;
+    public Cashbox(int value) {
+        this.value = value;
     }
 
     public int getTotal() {
-        return Value*Count;
+        return value*count;
     }
 
     public int getValue() {
-        return Value;
+        return value;
     }
 
     public void setValue(int value) {
-        Value = value;
+        this.value = value;
     }
 
-    private int Value;
+    private int value;
 
     public int getCount() {
-        return Count;
+        return count;
     }
 
     public void setCount(int count) {
-        Count = count;
+        this.count = count;
     }
 
     public void addCount(int count) {
-        Count += count;
+        this.count += count;
     }
 
     public void decCount(int count) {
-        Count -= count;
+        this.count -= count;
     }
-    private int Count=0;
+    private int count=0;
 
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
-        cashbox cashbox = (cashbox) o;
-        return Value == cashbox.Value;
+        Cashbox cashbox = (Cashbox) o;
+        return value == cashbox.value;
     }
 
     @Override
     public int hashCode() {
 
-        return Objects.hash(Value);
+        return Objects.hash(value);
     }
 }
