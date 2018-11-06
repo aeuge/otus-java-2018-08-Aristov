@@ -28,20 +28,17 @@ public class MainC {
             logger.info("Сбросили банкоматы на заводские настройки ");
 
             logger.info("Всего в банкоматах: "+myATMDPT.getTotal());
-
-
         }
         catch (Exception e) {
             logger.info("ошибка"+e.getMessage());
         }
-
     }
 
     private static void withdraw (ATM atm, int total) {
         try {
             atm.withdraw(total);
             logger.info("выдача успешна: "+total);
-        } catch (Exception e) {
+        } catch (AtmWithdrawException e) {
             logger.info("ошибка выдачи: "+e.getMessage());
         }
     }
