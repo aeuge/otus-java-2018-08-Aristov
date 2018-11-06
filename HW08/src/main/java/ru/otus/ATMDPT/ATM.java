@@ -3,8 +3,18 @@ package ru.otus.ATMDPT;
 
 import java.util.*;
 
-public class ATM {
+public class ATM implements ResetListener {
     private List<Cashbox> cashboxes = new ArrayList<>();
+    private Caretaker caretaker = new Caretaker();
+
+    ATM () throws AtmLoadException {
+        try {
+            loadCash();
+            saveToMemento();
+        } catch (AtmLoadException e) {
+            throw new AtmLoadException(e.getMessage());
+        }
+    }
 
     public int getTotal() {
         int total = 0;
@@ -14,9 +24,15 @@ public class ATM {
         return total;
     }
 
-    public String getStringTotal() {
-        return "всего денег: "+String.valueOf(getTotal());
+    public void saveToMemento() {
+        caretaker.add(new Memento(cashboxes));
     }
+
+    public void restoreFromMemento(int i) {
+        cashboxes.clear();
+        cashboxes.addAll(caretaker.get(i).getSavedState());
+    }
+
 
     private List<Cashbox> getBanknotes () {
         List<Cashbox> banknotes = new ArrayList<>();
@@ -106,5 +122,24 @@ public class ATM {
             Collections.sort(cashboxes,Comparator.comparing(Cashbox::getValue).reversed());//сразу пачки денег сортируем от большей к меньшей
         }
 
+    }
+
+    @Override
+    public void onReset() throws AtmLoadException{
+        //сбрысываем на заводские
+        restoreFromMemento(0);
+    }
+
+    private void loadCash() throws AtmLoadException {
+        try {
+            addCashbox(2000,(int) (Math.random() * 100));
+            addCashbox(5000,(int) (Math.random() * 100));
+            addCashbox(1000,(int) (Math.random() * 100));
+            addCashbox(500,(int) (Math.random() * 100));
+            addCashbox(200,(int) (Math.random() * 100));
+            addCashbox(100,(int) (Math.random() * 100));
+        } catch (Exception e) {
+            throw new AtmLoadException(e.getMessage());
+        }
     }
 }

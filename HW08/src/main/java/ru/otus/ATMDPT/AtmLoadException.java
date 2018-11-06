@@ -1,12 +1,13 @@
 package ru.otus.ATMDPT;
 
 public class AtmLoadException extends Exception {
-    String name;
-    AtmLoadException (String name) {
-        this.name = name;
+    String message;
+
+    AtmLoadException (String message) {
+        this.message = message;
     }
 
-    public String getName (){
-        return name;
+    public String getMessage (){
+        return super.getMessage();
     }
 }

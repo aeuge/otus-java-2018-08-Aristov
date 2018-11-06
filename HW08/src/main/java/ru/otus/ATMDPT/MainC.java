@@ -5,51 +5,46 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 public class MainC {
-    private static ATM myATM = new ATM();
+    private static ATMDPT myATMDPT = new ATMDPT();
     private static Logger logger = LoggerFactory.getLogger(MainC.class);
 
-    public static void main(String[] args) throws Exception {
+    public static void main(String[] args) {
 
         try {
-            loadCash();
-            logger.info("Загружаем в банкомат деньги:");
-            logger.info("Деньги в банкомат успешно загружены");
-            logger.info("Всего денег в банкомате: "+myATM.getStringTotal());
-            logger.info("Добавим денег:");
-            myATM.addCashbox(200,10);
-            logger.info("Всего в банкомате: "+myATM.getStatus());
-            withdraw(-1);
-            withdraw(9301);
-            withdraw(9300);
-            logger.info("Всего в банкомате: "+myATM.getStatus());
+            ATM atmA = new ATM();
+            myATMDPT.register(atmA);
+            ATM atmB = new ATM();
+            myATMDPT.register(atmB);
+            ATM atmC = new ATM();
+            myATMDPT.register(atmC);
+
+            logger.info("Всего в банкоматах: "+myATMDPT.getTotal());
+
+            withdraw(atmA, 11000);
+
+            logger.info("Всего в банкоматах: "+myATMDPT.getTotal());
+
+            myATMDPT.resetATM();
+            logger.info("Сбросили банкоматы на заводские настройки ");
+
+            logger.info("Всего в банкоматах: "+myATMDPT.getTotal());
+
+
         }
-        catch (AtmLoadException e) {
-            logger.info("ошибка"+e.getName());
+        catch (Exception e) {
+            logger.info("ошибка"+e.getMessage());
         }
 
     }
 
-    private static void withdraw (int total) {
+    private static void withdraw (ATM atm, int total) {
         try {
-            myATM.withdraw(total);
+            atm.withdraw(total);
             logger.info("выдача успешна: "+total);
-        } catch (AtmWithdrawException e) {
-            logger.info("ошибка выдачи: "+e.getName());
+        } catch (Exception e) {
+            logger.info("ошибка выдачи: "+e.getMessage());
         }
     }
 
-    private static int loadCash () throws AtmLoadException {
-        try {
-            myATM.addCashbox(2000,1);
-            myATM.addCashbox(5000,100);
-            myATM.addCashbox(1000,100);
-            myATM.addCashbox(500,100);
-            myATM.addCashbox(200,100);
-            myATM.addCashbox(100,100);
-            return 1;
-        } catch (Exception e) {
-            logger.info("ошибка загрузки денег в банкомат: "+e.getMessage());
-            throw new AtmLoadException(e.getMessage());
-        }
-    }
+
 }

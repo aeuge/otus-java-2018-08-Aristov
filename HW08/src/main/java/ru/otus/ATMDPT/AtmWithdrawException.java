@@ -1,12 +1,13 @@
 package ru.otus.ATMDPT;
 
 public class AtmWithdrawException extends Exception {
-    String name;
-    AtmWithdrawException (String name) {
-        this.name = name;
+    String message;
+
+    AtmWithdrawException (String message) {
+        this.message = message;
     }
 
-    public String getName (){
-        return name;
+    public String getMessage (){
+        return super.getMessage();
     }
 }
