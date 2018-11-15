@@ -43,6 +43,24 @@ public class TestJSON {
     }
 
     @Test
+    public void arrayTest() throws IllegalAccessException, ClassNotFoundException {
+        ArrayTesting arrayTesting = new ArrayTesting();
+        arrayTesting.i[0][0] = 1;arrayTesting.i[0][1] = 2;arrayTesting.i[1][0] = 3;arrayTesting.i[1][1] = 4;
+
+        Gson gson = new Gson();
+        String gsonString = gson.toJson(arrayTesting);
+        logger.info(gsonString);
+
+        String myString = MyGsonClass(arrayTesting);
+        logger.info(myString);
+        if (gsonString.equals(myString)) {
+            logger.info("string matches");
+        } else {
+            logger.info("string NOT matches");
+            Assertions.fail("string NOT matches in arrayTest");
+        }
+    }
+    @Test
     public void nestedListTest() throws IllegalAccessException, ClassNotFoundException {
         List<String> listOfStrings = new ArrayList<>();
         listOfStrings.add("first string");
@@ -61,24 +79,4 @@ public class TestJSON {
             Assertions.fail("string NOT matches in nestedListsTest");
         }
     }
-    @Test
-
-    public void arrayTest() throws IllegalAccessException, ClassNotFoundException {
-        int[][] i = new int[2][2];
-        i[0][0] = 1;i[0][1] = 2;i[1][0] = 3;i[1][1] = 4;
-
-        Gson gson = new Gson();
-        String gsonString = gson.toJson(i);
-        logger.info(gsonString);
-
-        String myString = MyGsonClass(i);
-        logger.info(myString);
-        if (gsonString.equals(myString)) {
-            logger.info("string matches");
-        } else {
-            logger.info("string NOT matches");
-            Assertions.fail("string NOT matches in arrayTest");
-        }
-    }
-
 }

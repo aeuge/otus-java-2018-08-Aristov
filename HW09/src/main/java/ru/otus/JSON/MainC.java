@@ -21,17 +21,17 @@ public class MainC {
         List<String> resultList = new ArrayList<>();
         Iterator iterator = ((Collection) obj).iterator();
         while (iterator.hasNext()){
-            resultList.add(convertObject(iterator.next()));
+            resultList.add(MyGsonObject(iterator.next()));
         }
         return  "["+generateResultStringFromList(resultList,",")+"]";
     }
+
     private static String MyMapObject(Object obj) throws ClassNotFoundException, IllegalAccessException {
-        //logger.info(obj.getClass().getName());
         List<String> resultList = new ArrayList<>();
         Map myMap = new HashMap((Map) obj);
         myMap.forEach((k,v)-> {
             try {
-                resultList.add(convertObject(k,"\"")+":"+convertObject(v,"\""));
+                resultList.add(addQuotas(MyGsonObject(k))+":"+addQuotas(MyGsonObject(v)));
             } catch (ClassNotFoundException e) {
                 e.printStackTrace();
             } catch (IllegalAccessException e) {
@@ -41,55 +41,28 @@ public class MainC {
         return "{"+generateResultStringFromList(resultList,",")+"}";
     }
 
-    private static String convertObject(Object v, String s) throws ClassNotFoundException, IllegalAccessException{
-        String str = convertObject(v);
+    private static String addQuotas(String s) throws ClassNotFoundException, IllegalAccessException{
+        String str = s;
         if (str.charAt(0)!='\"') {
-            str = s+str+s;
+            str = "\""+str+"\"";
         }
         return str;
     }
 
     private static String MyGsonObject (Object obj) throws ClassNotFoundException, IllegalAccessException {
-        String resultstr = "";
         Type genericType = obj.getClass();
-        if(genericType instanceof ParameterizedType) {
-            // types with parameters
-            ParameterizedType parameterizedType = (ParameterizedType) genericType;
-            String declaration = parameterizedType.getRawType().getTypeName();
-            declaration += "<";
-
-            Type[] typeArgs = parameterizedType.getActualTypeArguments();
-
-            for(int i = 0; i < typeArgs.length; i++) {
-                Type typeArg = typeArgs[i];
-
-                if(i > 0) {
-                    declaration += ", ";
-                }
-
-                // note: recursive call
-                declaration += MyGsonObject(typeArg);
-            }
-
-            declaration += ">";
-            declaration = declaration.replace('$', '.');
-            return declaration;
-        } else if(isMap(obj)) {
+        //logger.info(obj.getClass().getName() + "++"+genericType );
+        if(isMap(obj)) {
             return MyMapObject(obj);
         } else if(isCollection(obj)) {
             return MyCollectionObject(obj);
         } else if(obj.getClass() instanceof Class<?>) {
-            String genericResultType = obj.getClass().getGenericSuperclass().toString();
-            String canonicalName = obj.getClass().getCanonicalName();
-            canonicalName = canonicalName.replace("java.lang.","");
-
-            logger.info(obj.getClass().getName() + "--" + canonicalName + "--" + genericResultType);
             if(obj.getClass().isArray()) {
-                // arrays
+                //logger.info("is array");
                 int arrayLength = Array.getLength(obj);
                 List<String> resultList = new ArrayList<>();
                 for (int i = 0; i < arrayLength; i++) {
-                    resultList.add(convertObject(Array.get(obj,i)));
+                    resultList.add(MyGsonObject(Array.get(obj,i)));
                 }
                 return  "["+generateResultStringFromList(resultList,",")+"]";
             }
@@ -101,13 +74,6 @@ public class MainC {
         else {
             throw new ClassNotFoundException();
         }
-    }
-    public static boolean isMap(Object ob) {
-        return ob instanceof Map ;
-    }
-
-    public static boolean isCollection(Object ob) {
-        return ob instanceof Collection ;
     }
 
     private static String convertObject(Object obj) throws ClassNotFoundException, IllegalAccessException {
@@ -154,7 +120,11 @@ public class MainC {
         return resultStr;
     }
 
+    public static boolean isMap(Object ob) {
+        return ob instanceof Map ;
+    }
 
-
-
+    public static boolean isCollection(Object ob) {
+        return ob instanceof Collection ;
+    }
 }
