@@ -1,9 +1,9 @@
 import com.google.gson.Gson;
+import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import ru.otus.JSON.MainC;
-import org.junit.Assert;
 
 import java.util.*;
 
@@ -38,6 +38,7 @@ public class TestJSON {
                 logger.info("string matches");
             } else {
                 logger.info("string NOT matches");
+                Assertions.fail("string NOT matches in commonObjectTest");
             }
     }
 
@@ -57,6 +58,7 @@ public class TestJSON {
             logger.info("string matches");
         } else {
             logger.info("string NOT matches");
+            Assertions.fail("string NOT matches in nestedListsTest");
         }
     }
     @Test
@@ -75,6 +77,7 @@ public class TestJSON {
             logger.info("string matches");
         } else {
             logger.info("string NOT matches");
+            Assertions.fail("string NOT matches in arrayTest");
         }
     }
 
