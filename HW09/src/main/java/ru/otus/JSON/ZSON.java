@@ -9,7 +9,6 @@ import java.util.*;
 
 public class ZSON {
     private static Logger logger = LoggerFactory.getLogger(ZSON.class);
-    transient static Object[] myData;
 
     public static String convertClassToJSON(Object obj) throws ClassNotFoundException, IllegalAccessException {
         if (obj!=null) {
@@ -32,6 +31,41 @@ public class ZSON {
             return resultstr + "}";
         } else {
             return "";
+        }
+    }
+
+    private static String convertObjectToJSON(Object obj) throws ClassNotFoundException, IllegalAccessException {
+        //Type genericType = obj.getClass();
+        //logger.info(obj.getClass().getName() + "++"+genericType );
+        if (isMap(obj)) {
+            return convertMapObjectToJSON(obj);
+        } else if (isCollection(obj)) {
+            return convertCollectionObjectToJSON(obj);
+        } else if (obj.getClass() instanceof Class<?>) {
+            if (obj.getClass().isArray()) {
+                int arrayLength = Array.getLength(obj);
+                List<String> resultList = new ArrayList<>();
+                for (int i = 0; i < arrayLength; i++) {
+                    resultList.add(convertObjectToJSON(Array.get(obj, i)));
+                }
+                return "[" + String.join(",", resultList) + "]";
+            } else {
+                // primitive and types without parameters (normal/standard types)
+                return convertInnerObjectToJSON(obj);
+            }
+        } else {
+            throw new ClassNotFoundException();
+        }
+    }
+
+    private static String convertInnerObjectToJSON(Object obj) throws ClassNotFoundException, IllegalAccessException {
+        Class type = obj.getClass();
+        if ((obj instanceof Integer)||(obj instanceof Float)||(obj instanceof Double)||(obj instanceof Short)||(obj instanceof Long)||(obj instanceof Byte)||(obj instanceof Boolean)) {
+            return obj.toString();
+        } else if ((obj instanceof Character)||(obj instanceof String)) {
+            return "\"" + obj.toString() + "\"";
+        } else {
+            return convertClassToJSON(obj);
         }
     }
 
@@ -62,42 +96,6 @@ public class ZSON {
     private static String addQuotas(String s) {
         return s.charAt(0)!='\"' ? "\""+s+"\"" : s;
     }
-
-    private static String convertObjectToJSON(Object obj) throws ClassNotFoundException, IllegalAccessException {
-        //Type genericType = obj.getClass();
-        //logger.info(obj.getClass().getName() + "++"+genericType );
-        if (isMap(obj)) {
-            return convertMapObjectToJSON(obj);
-        } else if (isCollection(obj)) {
-            return convertCollectionObjectToJSON(obj);
-        } else if (obj.getClass() instanceof Class<?>) {
-            if (obj.getClass().isArray()) {
-                //logger.info("is array");
-                int arrayLength = Array.getLength(obj);
-                List<String> resultList = new ArrayList<>();
-                for (int i = 0; i < arrayLength; i++) {
-                    resultList.add(convertObjectToJSON(Array.get(obj, i)));
-                }
-                return "[" + String.join(",", resultList) + "]";
-            } else {
-                // primitive and types without parameters (normal/standard types)
-                return convertInnerObjectToJSON(obj);
-            }
-        } else {
-            throw new ClassNotFoundException();
-        }
-    }
-    private static String convertInnerObjectToJSON(Object obj) throws ClassNotFoundException, IllegalAccessException {
-        Class type = obj.getClass();
-        if ((obj instanceof Integer)||(obj instanceof Float)||(obj instanceof Double)||(obj instanceof Short)||(obj instanceof Long)||(obj instanceof Byte)||(obj instanceof Boolean)) {
-            return obj.toString();
-        } else if ((obj instanceof Character)||(obj instanceof String)) {
-            return "\"" + obj.toString() + "\"";
-        } else {
-            return convertClassToJSON(obj);
-        }
-    }
-
 
     public static boolean isMap(Object ob) {
         return ob instanceof Map ;
