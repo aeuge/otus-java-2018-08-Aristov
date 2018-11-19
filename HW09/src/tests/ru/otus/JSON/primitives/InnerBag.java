@@ -1,3 +1,5 @@
+package ru.otus.JSON.primitives;
+
 public class InnerBag {
     private int i = 1;
     private String str = "inner bag";

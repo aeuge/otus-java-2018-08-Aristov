@@ -1,8 +1,11 @@
+package ru.otus.JSON.primitives;
+
 import java.util.*;
 
-class BagOfPrimitives {
+public class BagOfPrimitives {
     public int value1;
-    private final String value2;
+    public String nullObject = null;
+    private String value2 = "";
     private int[] value3 = new int[2];
     private Integer value4;
     private transient int value5;
@@ -14,16 +17,6 @@ class BagOfPrimitives {
     private Set<Integer> setOfIntegers= new HashSet<>();
     private Map<Integer, String> mapOfBooleans= new HashMap<>();
 
-
-
-    private BagOfPrimitives() {
-        value1 = 1;
-        value2 = "abc";
-        value3[0] = 3;
-        value3[1] = 5;
-        value4 = 100;
-        value5 = 0;
-    }
 
     public BagOfPrimitives(int value1, String value2, int[] value3, Integer value4, int value5, double value6, boolean value7, InnerBag innerValue, List<String> listOfStrings, List<List<String>> nestedListOfStrings, Set<Integer> setOfIntegers, Map<Integer, String> mapOfBooleans) {
         this.value1 = value1;

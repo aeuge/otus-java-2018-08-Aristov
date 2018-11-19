@@ -1,3 +1,5 @@
+package ru.otus.JSON.primitives;
+
 import java.util.ArrayList;
 import java.util.List;
 

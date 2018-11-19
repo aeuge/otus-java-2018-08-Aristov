@@ -80,7 +80,7 @@
                         <manifest>
                             <addClasspath>true</addClasspath>
                             <mainClass>
-                                ru.otus.JSON.MainC
+                                ru.otus.JSON.ZSON
                             </mainClass>
                         </manifest>
                     </archive>
