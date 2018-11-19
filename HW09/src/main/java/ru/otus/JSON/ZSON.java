@@ -48,9 +48,9 @@ public class ZSON {
     }
 
     private static String convertPrimitiveObjectToJSON(Object obj) throws ClassNotFoundException, IllegalAccessException {
-        if ((obj instanceof Integer)||(obj instanceof Float)||(obj instanceof Double)||(obj instanceof Short)||(obj instanceof Long)||(obj instanceof Byte)||(obj instanceof Boolean)) {
+        if (isNumberOrBoolean(obj)) {
             return obj.toString();
-        } else if ((obj instanceof Character)||(obj instanceof String)) {
+        } else if (isCharacter(obj)) {
             return "\"" + obj.toString() + "\"";
         } else {
             return convertObjectToJSON(obj);
@@ -98,5 +98,12 @@ public class ZSON {
 
     public static boolean isCollection(Object ob) {
         return ob instanceof Collection ;
+    }
+
+    public static boolean isCharacter(Object ob) {
+        return (ob instanceof Character)||(ob instanceof String);
+    }
+    public static boolean isNumberOrBoolean (Object ob) {
+        return (ob instanceof Integer) || (ob instanceof Float) || (ob instanceof Double) || (ob instanceof Short) || (ob instanceof Long) || (ob instanceof Byte) || (ob instanceof Boolean);
     }
 }
