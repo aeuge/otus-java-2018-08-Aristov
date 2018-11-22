@@ -13,8 +13,7 @@ public class TestORM {
 
     @Test
     public void commonOrmTest() {
-        try {
-            Executor exec = new Executor();
+        try (Executor exec = new Executor()){
             CreateTableORM.generateDefaultTable(exec.getConnection());
             UsersDataSet uds = new UsersDataSet(3, "kitty", 5);
             exec.save(uds);

@@ -2,7 +2,6 @@ package ru.otus.ORM.main;
 
 
 import java.lang.reflect.Field;
-import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Modifier;
 import java.sql.*;
 import java.util.ArrayList;
@@ -13,11 +12,12 @@ import java.util.NoSuchElementException;
 import ru.otus.ORM.connection.DBConnection;
 import ru.otus.ORM.helper.DataSet;
 
-public class Executor {
+public class Executor implements AutoCloseable {
     private DBConnection connection;
 
     public Executor() {
         connection = new DBConnection();
+        System.out.println("Connection established");
     }
 
     public <T extends DataSet> void save(T user) throws SQLException {
@@ -95,5 +95,10 @@ public class Executor {
             }
         }
         return  "insert into orm ("+String.join(",", fieldList) + ")" + " values ("+String.join(",", valueList)  +")";
+    }
+
+    @Override
+    public void close() throws Exception {
+        connection.close();
     }
 }
