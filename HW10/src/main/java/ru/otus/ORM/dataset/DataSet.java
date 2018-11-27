@@ -1,4 +1,4 @@
-package ru.otus.ORM.helper;
+package ru.otus.ORM.dataset;
 
 public abstract class DataSet {
     protected long id;

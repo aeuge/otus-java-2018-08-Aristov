@@ -1,4 +1,4 @@
-package ru.otus.ORM.helper;
+package ru.otus.ORM.dataset;
 
 public class UsersDataSet extends DataSet {
     private String name;
