@@ -24,13 +24,13 @@ public class Executor implements AutoCloseable {
     }
 
     public <T extends DataSet> void save(T user) throws SQLException {
-        if (user!=null) {
-            if ((clazz != user.getClass())&&(user.getClass() != null)){
+        if (user != null) {
+            if ((clazz != user.getClass()) && (user.getClass() != null)){
                 fields = getAllNonTransientFields(user.getClass());
             }
             try (PreparedStatement statement = connection.prepareStatement(InsertStatement)){
                 for (int i = 0; i < fields.size(); i++) {
-                    statement.setString(i+1, fields.get(i).get(user).toString());
+                    statement.setString(i + 1, fields.get(i).get(user).toString());
                 }
                 statement.executeUpdate();
             } catch (Exception e) {
@@ -50,11 +50,11 @@ public class Executor implements AutoCloseable {
             T dataset = null;
             try (PreparedStatement statement = connection.prepareStatement(SelectStatement)) {
                 dataset = clazz.getConstructor().newInstance();
-                statement.setLong(1,id);
+                statement.setLong(1, id);
                 statement.executeQuery();
                 ResultSet rs = statement.getResultSet();
                 if (rs.next()) {
-                    for (Field f : fields) {
+                    for (Field f: fields) {
                         f.setAccessible(true);
                         Object fieldValue = rs.getObject(f.getName());
                         if (fieldValue != null) {
@@ -83,8 +83,8 @@ public class Executor implements AutoCloseable {
         List<String> fieldList = new ArrayList<>();
         List<String> valueList = new ArrayList<>();
         for (Class<?> c = type; c != null; c = c.getSuperclass()) {
-            Field[] declaredFields =c.getDeclaredFields();
-            for (Field f : declaredFields) {
+            Field[] declaredFields = c.getDeclaredFields();
+            for (Field f: declaredFields) {
                 boolean isTransient = Modifier.isTransient(f.getModifiers());
                 if (!isTransient) {
                     f.setAccessible(true);
@@ -94,7 +94,7 @@ public class Executor implements AutoCloseable {
                 }
             }
         }
-        this.InsertStatement =  "insert into orm ("+String.join(",", fieldList ) + ")" + " values ("+String.join(",", valueList)  +")";
+        this.InsertStatement =  "insert into orm (" + String.join(",", fieldList ) + ")" + " values (" + String.join(",", valueList)  + ")";
         return fields;
     }
 

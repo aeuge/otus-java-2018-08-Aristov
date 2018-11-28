@@ -26,12 +26,12 @@ public class TestORM {
 
     private void tryLoadAndSaveUserDataSet(long id, String name, int age, Executor exec) {
         try {
-            UsersDataSet uds = new UsersDataSet(id,name,age);
+            UsersDataSet uds = new UsersDataSet(id, name, age);
             exec.save(uds);
-            System.out.println("ОБъект отправлен в БД: "+uds.toString());
+            System.out.println("ОБъект отправлен в БД: " + uds.toString());
             UsersDataSet udl = exec.load(id,UsersDataSet.class);
-            System.out.println("ОБъект извлечен из БД: "+udl);
-            Assertions.assertEquals(uds,udl);
+            System.out.println("ОБъект извлечен из БД: " + udl);
+            Assertions.assertEquals(uds, udl);
         } catch (Exception e) {
             e.printStackTrace();
         }

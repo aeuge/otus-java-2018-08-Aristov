@@ -12,7 +12,7 @@ public class DBStructureCreator {
             "age int(3));";
 
     public static void generateDefaultTable(DBConnection connection) throws SQLException {
-            try (Statement statement = connection.createStatement();){
+            try (Statement statement = connection.createStatement()){
                 statement.executeUpdate(CREATE_TABLE);
             } catch (Exception e) {
                 e.printStackTrace();
