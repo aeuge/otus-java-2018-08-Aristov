@@ -31,6 +31,7 @@ public class TestORM {
             System.out.println("ОБъект отправлен в БД: "+uds.toString());
             UsersDataSet udl = exec.load(id,UsersDataSet.class);
             System.out.println("ОБъект извлечен из БД: "+udl);
+            Assertions.assertEquals(uds,udl);
         } catch (Exception e) {
             e.printStackTrace();
         }

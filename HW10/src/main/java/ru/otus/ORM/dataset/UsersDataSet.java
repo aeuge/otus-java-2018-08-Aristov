@@ -1,8 +1,25 @@
 package ru.otus.ORM.dataset;
 
+import java.util.Objects;
+
 public class UsersDataSet extends DataSet {
     private String name;
     private int age;
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        UsersDataSet that = (UsersDataSet) o;
+        return age == that.age &&
+                Objects.equals(name, that.name);
+    }
+
+    @Override
+    public int hashCode() {
+
+        return Objects.hash(name, age);
+    }
 
     public UsersDataSet() {
     }
