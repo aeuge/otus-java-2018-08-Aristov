@@ -16,10 +16,10 @@ public class PhoneDataSet extends DataSet {
     private String number;
 
     @ManyToOne
-    private UsersDataSet usersDataSet;
+    private UsersDataSet user;
 
-    public void setUserDataSet(UsersDataSet userDataSet) {
-        this.usersDataSet = usersDataSet;
+    public void setUser(UsersDataSet userDataSet) {
+        this.user = userDataSet;
     }
 
     public PhoneDataSet() {

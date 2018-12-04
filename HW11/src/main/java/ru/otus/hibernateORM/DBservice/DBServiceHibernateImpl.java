@@ -7,6 +7,7 @@ import org.hibernate.boot.registry.StandardServiceRegistryBuilder;
 import org.hibernate.cfg.Configuration;
 import org.hibernate.service.ServiceRegistry;
 import ru.otus.hibernateORM.dao.UsersHibernateDAO;
+import ru.otus.hibernateORM.dataset.AddressDataSet;
 import ru.otus.hibernateORM.dataset.DataSet;
 import ru.otus.hibernateORM.dataset.PhoneDataSet;
 import ru.otus.hibernateORM.dataset.UsersDataSet;
@@ -21,7 +22,8 @@ public class DBServiceHibernateImpl implements DBService {
         Configuration configuration = new Configuration();
 
         configuration.addAnnotatedClass(UsersDataSet.class);
-        //configuration.addAnnotatedClass(PhoneDataSet.class);
+        configuration.addAnnotatedClass(PhoneDataSet.class);
+        configuration.addAnnotatedClass(AddressDataSet.class);
 
         configuration.setProperty("hibernate.dialect", "org.hibernate.dialect.H2Dialect");
         configuration.setProperty("hibernate.connection.driver_class", "org.h2.Driver");
