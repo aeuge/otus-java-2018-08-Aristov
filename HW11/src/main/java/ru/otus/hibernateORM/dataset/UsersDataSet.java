@@ -39,6 +39,7 @@ public class UsersDataSet extends DataSet {
     public UsersDataSet(long id, String name, List<AddressDataSet> addresses, PhoneDataSet... phones) {
         this.setId(id);
         this.setName(name);
+        this.age = 10;
         this.addresses.addAll(addresses);
         List<PhoneDataSet> userPhones = Arrays.asList(phones);
         this.setPhones(userPhones);
@@ -46,7 +47,7 @@ public class UsersDataSet extends DataSet {
     }
 
     public UsersDataSet(String name, List<AddressDataSet> addresses, PhoneDataSet... phones) {
-        this(-1, name, addresses, phones);
+        this(1, name, addresses, phones);
     }
 
     public String getName() {
@@ -73,7 +74,8 @@ public class UsersDataSet extends DataSet {
     public String toString() {
         return "UserDataSet{" +
                 "id='" + getId() + '\'' +
-                "name='" + name + '\'' +
+                ",name='" + name + '\'' +
+                ",age='" + getAge() + '\'' +
                 ", addresses=" + addresses +
                 ", phones=" + phones +
                 '}';

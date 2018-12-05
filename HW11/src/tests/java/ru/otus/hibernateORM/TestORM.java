@@ -23,6 +23,7 @@ public class TestORM {
     public void common() {
         try (DBService dbService = new DBServiceImpl()){
             tryLoadAndSaveUserDataSet(dbService);
+            //Assert падает потому что в мою реализацию ОРМ еще не добавлены объекты телефон и адрес
         } catch (Exception e) {
             logger.info("FAIL" + e.getMessage());
             Assertions.fail("FAIL");
@@ -55,8 +56,8 @@ public class TestORM {
             tryLoadAndSaveUserDataSet(dbService);
             tryLoadAndSaveUserDataSet2(dbService);
             List<UsersDataSet> dataSets = dbService.readAll(UsersDataSet.class);
-            for (UsersDataSet userDataSet : dataSets) {
-                System.out.println("Read all: "+userDataSet);
+            for (UsersDataSet userDataSet: dataSets) {
+                System.out.println("Read all: " + userDataSet);
             }
         } catch (Exception e) {
             logger.info("FAIL" + e.getMessage());
@@ -75,7 +76,7 @@ public class TestORM {
             dbService.save(user1);
             System.out.println("ОБъект отправлен в БД: " + user1);
             UsersDataSet user1Loaded = dbService.read(1, UsersDataSet.class);
-            System.out.println("ОБъект извлечен из БД: " +user1Loaded);
+            System.out.println("ОБъект извлечен из БД: " + user1Loaded);
             Assertions.assertEquals(user1, user1Loaded);
         } catch (Exception e) {
             e.printStackTrace();
@@ -93,7 +94,6 @@ public class TestORM {
                     new PhoneDataSet("+67 890 344 4422")
             );
             dbService.save(user2);
-
             UsersDataSet user2Loaded = dbService.readByName("sully", UsersDataSet.class);
             System.out.println(user2Loaded);
             Assertions.assertEquals(user2, user2Loaded);
