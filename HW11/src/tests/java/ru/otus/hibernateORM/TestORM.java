@@ -69,7 +69,7 @@ public class TestORM {
         try {
             UsersDataSet user1 = new UsersDataSet(
                     "tully",
-                    Collections.singletonList(new AddressDataSet("Mira")),
+                    new AddressDataSet("Mira"),
                     new PhoneDataSet("+1 234 567 8018"),
                     new PhoneDataSet("+7 987 645 4545")
             );
@@ -85,12 +85,9 @@ public class TestORM {
 
     private void tryLoadAndSaveUserDataSet2(DBService dbService) {
         try {
-            List<AddressDataSet> addresses = new ArrayList<>();
-            addresses.add(new AddressDataSet("Truda"));
-            addresses.add(new AddressDataSet("Moskovskaya"));
             UsersDataSet user2 = new UsersDataSet(
                     "sully",
-                    addresses,
+                    new AddressDataSet("Truda"),
                     new PhoneDataSet("+67 890 344 4422")
             );
             dbService.save(user2);

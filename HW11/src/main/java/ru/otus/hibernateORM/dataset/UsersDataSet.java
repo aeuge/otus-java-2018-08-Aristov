@@ -23,9 +23,9 @@ public class UsersDataSet extends DataSet {
     @Column(name="age")
     private int age;
 
-    @OneToMany(cascade = CascadeType.ALL)
-    @JoinColumn(name = "user_id", nullable = false) // default is address_id
-    private List<AddressDataSet> addresses = new ArrayList<>();
+    @OneToOne(cascade = CascadeType.ALL)
+    //@JoinColumn(name = "user_id", nullable = false) // default is address_id
+    private AddressDataSet address = null;
 
 
     @OneToMany(
@@ -36,18 +36,18 @@ public class UsersDataSet extends DataSet {
 
     public UsersDataSet() {
     }
-    public UsersDataSet(long id, String name, List<AddressDataSet> addresses, PhoneDataSet... phones) {
+    public UsersDataSet(long id, String name, AddressDataSet address, PhoneDataSet... phones) {
         this.setId(id);
         this.setName(name);
         this.age = 10;
-        this.addresses.addAll(addresses);
+        this.address = address;
         List<PhoneDataSet> userPhones = Arrays.asList(phones);
         this.setPhones(userPhones);
         userPhones.forEach(phone -> phone.setUser(this));
     }
 
-    public UsersDataSet(String name, List<AddressDataSet> addresses, PhoneDataSet... phones) {
-        this(1, name, addresses, phones);
+    public UsersDataSet(String name, AddressDataSet address, PhoneDataSet... phones) {
+        this(1, name, address, phones);
     }
 
     public String getName() {
@@ -58,8 +58,8 @@ public class UsersDataSet extends DataSet {
         this.name = name;
     }
 
-    public List<AddressDataSet> getAddresses() {
-        return addresses;
+    public AddressDataSet getAddress() {
+        return address;
     }
 
     public List<PhoneDataSet> getPhones() {
@@ -76,7 +76,7 @@ public class UsersDataSet extends DataSet {
                 "id='" + getId() + '\'' +
                 ",name='" + name + '\'' +
                 ",age='" + getAge() + '\'' +
-                ", addresses=" + addresses +
+                ", addresses=" + address +
                 ", phones=" + phones +
                 '}';
     }
@@ -88,21 +88,6 @@ public class UsersDataSet extends DataSet {
         if (!(o instanceof UsersDataSet)) return false;
         UsersDataSet that = (UsersDataSet) o;
 
-        List<AddressDataSet> listA = that.getAddresses();
-        if (this.getAddresses() == null) {
-            if (listA != null) {
-                return false;
-            }
-        } else {
-            if (listA.size() != addresses.size()) {
-                return false;
-            }
-            for (int i = 0; i < listA.size(); i++) {
-                if (!(listA.get(i).equals(addresses.get(i)))) {
-                    return false;
-                }
-            }
-        }
         List<PhoneDataSet> listP = that.getPhones();
         if (this.getPhones() == null) {
             if (listP != null) {
@@ -119,12 +104,13 @@ public class UsersDataSet extends DataSet {
             }
         }
         return age == that.getAge() &&
+                Objects.equals(address, that.getAddress()) &&
                 Objects.equals(name, that.getName());
     }
 
     @Override
     public int hashCode() {
 
-        return Objects.hash(super.hashCode(), name, age, addresses, phones);
+        return Objects.hash(super.hashCode(), name, age, address, phones);
     }
 }
