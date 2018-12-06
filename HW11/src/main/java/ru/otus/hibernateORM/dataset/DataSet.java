@@ -33,4 +33,6 @@ public abstract class DataSet {
 
         return Objects.hash(id);
     }
+
+    public abstract void setAddress(String s);
 }

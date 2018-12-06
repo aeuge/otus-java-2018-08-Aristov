@@ -23,6 +23,10 @@ public class UsersDataSet extends DataSet {
     @Column(name="age")
     private int age;
 
+    public void setAddress(String address) {
+        this.address.setAddress(address);
+    }
+
     @OneToOne(cascade = CascadeType.ALL)
     //@JoinColumn(name = "user_id", nullable = false) // default is address_id
     private AddressDataSet address = null;

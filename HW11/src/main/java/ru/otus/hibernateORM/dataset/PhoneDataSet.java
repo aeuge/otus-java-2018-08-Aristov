@@ -39,4 +39,9 @@ public class PhoneDataSet extends DataSet {
                 "number='" + number + '\'' +
                 '}';
     }
+
+    @Override
+    public void setAddress(String s) {
+        //do nothing
+    }
 }

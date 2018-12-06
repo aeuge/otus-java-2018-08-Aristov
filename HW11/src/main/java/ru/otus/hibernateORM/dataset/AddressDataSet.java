@@ -7,6 +7,14 @@ import javax.persistence.Table;
 @Entity
 @Table(name = "address")
 public class AddressDataSet extends DataSet {
+    public String getStreet() {
+        return street;
+    }
+
+    public void setStreet(String street) {
+        this.street = street;
+    }
+
     @Column
     private String street;
 
@@ -22,5 +30,10 @@ public class AddressDataSet extends DataSet {
         return "AddressDataSet{" +
                 "street='" + street + '\'' +
                 '}';
+    }
+
+    @Override
+    public void setAddress(String s) {
+        //do nothing
     }
 }
