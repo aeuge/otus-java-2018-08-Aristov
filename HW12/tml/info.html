@@ -1,0 +1,18 @@
+<html><head><meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+    <link href="css/bootstrap.css" rel="stylesheet">
+    <script type="text/javascript" src="css/jquery-3.js"></script>
+    <link href="css/auth.css" rel="stylesheet">
+    <title>Информация о пользователе</title></head>
+<body><div class="TitleTop">Информация о пользователе</div>
+<div class="text-white">
+    <table class="text-white" width="1000"><tr ><td width="10%">ID</td><td width="10%">Имя</td><td width="10%">Возраст</td><td width="20%">Адрес</td><td>Телефоны</td></tr>
+        ${info}
+    </table>
+</div>
+<div class="idUserDataSet">
+<form method="post" action="/admin">
+    <button type="submit" class="btn btn-primary btn-block btn-large">Вернуться на главную</button>
+</form>
+</div>
+</body>
+</html>
