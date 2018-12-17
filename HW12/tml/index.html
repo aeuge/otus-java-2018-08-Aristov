@@ -11,7 +11,13 @@
         <input name="password" placeholder="admin - пароль" required="required" type="password">
         <button type="submit" class="btn btn-primary btn-block btn-large">Войти</button>
       </form>
-        ${loginAlert}
+        <#if loginAlert=="1">
+            <div class="LoginAlert wrong-message">Логин или пароль введены не верно!<div>
+        <#elseif loginAlert=="0">
+            <meta http-equiv="refresh" content="0; /admin"/>
+        <#else>
+
+        </#if>
     </div>
        
    

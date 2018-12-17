@@ -13,16 +13,14 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-/**
- * Created by tully.
- */
 public class AdminServlet extends HttpServlet {
 
-    private static final String DEFAULT_USER_NAME = "UNKNOWN";
     private static final String ADMIN_PAGE_TEMPLATE = "admin.html";
+    private static final String ADMIN_NAME = "admin";
+    private static final String VARIABLE_USERS = "Users";
+    private static final String VARIABLE_NUMBER_OF_USERS = "numberOfUsers";
     private DBService dbService;
     private int numberOfUsers = 0;
-    String readAll = "";
 
     private final TemplateProcessor templateProcessor;
 
@@ -34,15 +32,10 @@ public class AdminServlet extends HttpServlet {
 
     private Map<String, Object> createPageVariablesMap(HttpServletRequest request) {
         Map<String, Object> pageVariables = new HashMap<>();
-
         List<UsersDataSet> uds = this.dbService.readAll(UsersDataSet.class);
-        readAll = "";
-        uds.forEach(s->{readAll += s.toHTMLString();});
         numberOfUsers = uds.size();
-
-        pageVariables.put("readAll", readAll != null ? readAll : DEFAULT_USER_NAME);
-        pageVariables.put("numberOfUsers", numberOfUsers);
-
+        pageVariables.put(VARIABLE_USERS, uds);
+        pageVariables.put(VARIABLE_NUMBER_OF_USERS, numberOfUsers);
         return pageVariables;
     }
 
@@ -53,7 +46,7 @@ public class AdminServlet extends HttpServlet {
 
     public void doGet(HttpServletRequest request,
                       HttpServletResponse response) throws ServletException, IOException {
-        Object isAdmin = request.getSession().getAttribute("admin");
+        Object isAdmin = request.getSession().getAttribute(ADMIN_NAME);
         if (isAdmin != null) {
             if (isAdmin.equals("true")) {
                 Map<String, Object> pageVariables = createPageVariablesMap(request);

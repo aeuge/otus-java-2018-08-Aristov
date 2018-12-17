@@ -9,14 +9,17 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 import java.sql.SQLException;
+import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 public class InfoServlet extends HttpServlet {
 
     private static final String INFO_PAGE_TEMPLATE = "info.html";
+    private static final String VARIABLE_USERS = "Users";
+    private static final String VARIABLE_ID = "id";
     private DBService dbService;
-    String readUserDataSetForID = "";
 
     private final TemplateProcessor templateProcessor;
 
@@ -29,19 +32,19 @@ public class InfoServlet extends HttpServlet {
     private Map<String, Object> createPageVariablesMap(HttpServletRequest request) {
         Map<String, Object> pageVariables = new HashMap<>();
 
-        readUserDataSetForID = "";
-        String idString = request.getParameter("id");
+        String idString = request.getParameterMap().containsKey(VARIABLE_ID)?request.getParameter(VARIABLE_ID):"0";
         long id = Long.parseLong(idString);
-        UsersDataSet uds = null;
+        List<UsersDataSet> listOfUsers = new ArrayList<>();
+        UsersDataSet uds;
         try {
             uds = this.dbService.read(id, UsersDataSet.class);
             if (uds != null) {
-                readUserDataSetForID = uds.toHTMLString();
+                listOfUsers.add(uds);
             }
         } catch (SQLException e) {
-            readUserDataSetForID = "";
+            e.printStackTrace();
         }
-        pageVariables.put("info", readUserDataSetForID != "" ? readUserDataSetForID : "Пользователь с данным id не найден");
+        pageVariables.put(VARIABLE_USERS, listOfUsers);
         return pageVariables;
     }
 

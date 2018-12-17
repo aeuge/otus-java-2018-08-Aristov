@@ -108,23 +108,6 @@ public class UsersDataSet extends DataSet {
                 '}';
     }
 
-    private String printHTMLPhones() {
-        List<String> resultList = new ArrayList<>();
-        for (int i = 0; i < phones.size() ; i++) {
-            resultList.add(phones.get(i).toHTMLString());
-        }
-        return String.join("; ",resultList);
-    }
-
-    public String toHTMLString() {
-        return "<tr>" +
-                "<td>" + getId() + "</td>" +
-                "<td>" + name +"</td>" +
-                "<td>" + getAge() + "</td>" +
-                "<td>" + address.toHTMLString() + "</td>" +
-                "<td>" + printHTMLPhones() + "</td>" +
-                "</tr>";
-    }
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;

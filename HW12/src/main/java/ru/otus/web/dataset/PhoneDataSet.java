@@ -5,9 +5,6 @@ import javax.persistence.Entity;
 import javax.persistence.ManyToOne;
 import javax.persistence.Table;
 
-/**
- * Created by tully.
- */
 @Entity
 @Table(name = "phone")
 public class PhoneDataSet extends DataSet {
@@ -30,10 +27,6 @@ public class PhoneDataSet extends DataSet {
     }
 
     public String getNumber() {
-        return number;
-    }
-
-    public String toHTMLString() {
         return number;
     }
 

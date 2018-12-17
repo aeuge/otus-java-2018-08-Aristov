@@ -32,10 +32,10 @@ public class IndexServlet extends HttpServlet {
         if (requestPassword==null) {requestPassword = "";}
         String loginAlert = "";
         if ((!requestPassword.equals("admin")) && (requestPassword.length()>0)) {
-            loginAlert = "<div class='LoginAlert wrong-message'>Логин или пароль введены не верно!<div>";
+            loginAlert = "1";
         } else if (requestPassword.equals("admin")){
             request.getSession().setAttribute("admin", "true");
-            loginAlert = "<meta http-equiv=\"refresh\" content=\"0; /admin\"/>";
+            loginAlert = "0";
         }
         pageVariables.put("loginAlert",loginAlert);
         return pageVariables;

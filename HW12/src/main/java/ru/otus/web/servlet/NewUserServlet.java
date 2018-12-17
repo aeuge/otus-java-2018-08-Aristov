@@ -18,6 +18,11 @@ import java.util.Map;
 public class NewUserServlet extends HttpServlet {
 
     private static final String NEWUSER_PAGE_TEMPLATE = "newuser.html";
+    private static final String ADMIN_NAME = "admin";
+    private static final String VARIABLE_NAME = "name";
+    private static final String VARIABLE_AGE = "age";
+    private static final String VARIABLE_ADDRESS = "address";
+    private static final String VARIABLE_PHONES = "phones";
     private DBService dbService;
 
     private final TemplateProcessor templateProcessor;
@@ -31,10 +36,11 @@ public class NewUserServlet extends HttpServlet {
     private Map<String, Object> createPageVariablesMap(HttpServletRequest request) {
         Map<String, Object> pageVariables = new HashMap<>();
 
-        String getName = requestSafe(request,"name");
-        String getAge = requestSafe(request,"age");
-        String getAddress = requestSafe(request,"address");
-        String getPhones = requestSafe(request,"phones");
+        String getName = request.getParameterMap().containsKey(VARIABLE_NAME)?request.getParameter(VARIABLE_NAME):"";
+        String getAge = request.getParameterMap().containsKey(VARIABLE_AGE)?request.getParameter(VARIABLE_AGE):"";
+        String getAddress = request.getParameterMap().containsKey(VARIABLE_ADDRESS)?request.getParameter(VARIABLE_ADDRESS):"";
+        String getPhones = request.getParameterMap().containsKey(VARIABLE_PHONES)?request.getParameter(VARIABLE_PHONES):"";
+
         String[] phones = getPhones.split(";");
         int age = 1;
         if (!(getAge.equals(""))) {
@@ -54,17 +60,6 @@ public class NewUserServlet extends HttpServlet {
         return pageVariables;
     }
 
-    private String requestSafe(HttpServletRequest request, String name) {
-        String getName;
-        try {
-            getName = request.getParameter(name);
-        } catch (Exception e) {
-            getName = "";
-        }
-        return getName;
-    }
-
-
     public void doPost(HttpServletRequest request,
                        HttpServletResponse response) throws ServletException, IOException {
         doGet(request, response);
@@ -72,7 +67,7 @@ public class NewUserServlet extends HttpServlet {
 
     public void doGet(HttpServletRequest request,
                       HttpServletResponse response) throws ServletException, IOException {
-        Object isAdmin = request.getSession().getAttribute("admin");
+        Object isAdmin = request.getSession().getAttribute(ADMIN_NAME);
         if (isAdmin != null) {
             if (isAdmin.equals("true")) {
                 Map<String, Object> pageVariables = createPageVariablesMap(request);

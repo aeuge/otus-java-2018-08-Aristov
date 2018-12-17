@@ -25,10 +25,6 @@ public class AddressDataSet extends DataSet {
         this.street = street;
     }
 
-    public String toHTMLString () {
-        return street;
-    }
-
     @Override
     public String toString() {
         return "AddressDataSet{" +
