@@ -1,4 +1,4 @@
-package ru.otus.web.servlet;
+package ru.otus.web;
 
 import org.eclipse.jetty.server.Server;
 import org.eclipse.jetty.server.handler.HandlerList;
@@ -10,6 +10,7 @@ import ru.otus.web.DBservice.DBServiceHibernateImpl;
 import ru.otus.web.dataset.AddressDataSet;
 import ru.otus.web.dataset.PhoneDataSet;
 import ru.otus.web.dataset.UsersDataSet;
+import ru.otus.web.servlet.*;
 
 
 public class Main {

@@ -13,12 +13,12 @@ import java.util.Map;
 /**
  * @author v.chibrikov
  */
-class TemplateProcessor {
+public class TemplateProcessor {
     private static final String HTML_DIR = "tml";
 
     private final Configuration configuration;
 
-    TemplateProcessor() throws IOException {
+    public TemplateProcessor() throws IOException {
         configuration = new Configuration(Configuration.VERSION_2_3_28);
         configuration.setDirectoryForTemplateLoading(new File(HTML_DIR));
         configuration.setDefaultEncoding("UTF-8");

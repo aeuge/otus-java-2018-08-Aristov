@@ -23,7 +23,7 @@ public class NewUserServlet extends HttpServlet {
     private final TemplateProcessor templateProcessor;
 
     @SuppressWarnings("WeakerAccess")
-    NewUserServlet(DBService dbService, TemplateProcessor templateProcessor) throws IOException {
+    public NewUserServlet(DBService dbService, TemplateProcessor templateProcessor) throws IOException {
         this.dbService = dbService;
         this.templateProcessor = templateProcessor;
     }
