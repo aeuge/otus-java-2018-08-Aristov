@@ -34,7 +34,7 @@ public class BubbleSortImpl implements BubbleSort {
         mergeResults(arrayBounds.get(0), arrayBounds.get(2)-1, arrayBounds.get(2), arrayBounds.get(4)-1);
     }
 
-    public static void sortChunk(int lower, int upper) {
+    private static void sortChunk(int lower, int upper) {
         for (int i = lower; i < upper; i++) {
             for (int j = lower; j < upper + lower - i; j++) {
                 if (mas[j] > mas[j + 1]) {
@@ -46,7 +46,7 @@ public class BubbleSortImpl implements BubbleSort {
         }
     }
 
-    public static void mergeResults(int lowerA, int upperA,int lowerB, int upperB) {
+    private static void mergeResults(int lowerA, int upperA,int lowerB, int upperB) {
         Integer[] tempMas = new Integer[upperA-lowerA+1+upperB-lowerB+1];
         int index = 0;
         int indexB = lowerB;
@@ -68,6 +68,7 @@ public class BubbleSortImpl implements BubbleSort {
     }
 
     public static Boolean equals(Integer[] a,Integer[] b) {
+        if (a.length != b.length) return false;
         for (int i = 0; i < a.length; i++) {
             if (!(a[i].equals(b[i]))) { return false; }
         }
