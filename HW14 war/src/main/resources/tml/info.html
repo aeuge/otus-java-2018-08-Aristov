@@ -1,0 +1,32 @@
+<html><head><meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+    <link href="css/bootstrap.css" rel="stylesheet">
+    <script type="text/javascript" src="css/jquery-3.js"></script>
+    <link href="css/auth.css" rel="stylesheet">
+    <title>Информация о пользователе</title></head>
+<body><div class="TitleTop">Информация о пользователе</div>
+<div class="text-white">
+        <#list Users>
+            <table class="text-white" width="1000"><tr><td width="10%">ID</td><td width="10%">Имя</td><td width="10%">Возраст</td><td width="20%">Адрес</td><td>Телефоны</td></tr>
+            <#items as user>
+            <tr>
+                <td>${user.id}</td>
+                <td>${user.name}</td>
+                <td>${user.age}</td>
+                <td>${user.address.street}</td>
+                <td> <#list user.phones as phones>
+                    ${phones.number}<#sep>, </#sep>
+                </#list></td>
+            </tr>
+            </#items>
+            </table>
+        <#else>
+            <p>Пользователь с данным id не найден
+        </#list>
+</div>
+<div class="idUserDataSet">
+<form method="post" action="admin">
+    <button type="submit" class="btn btn-primary btn-block btn-large">Вернуться на главную</button>
+</form>
+</div>
+</body>
+</html>
