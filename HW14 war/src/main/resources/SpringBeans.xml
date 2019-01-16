@@ -3,7 +3,16 @@
        xsi:schemaLocation="http://www.springframework.org/schema/beans
 	http://www.springframework.org/schema/beans/spring-beans-3.0.xsd">
 
+
+    <bean id="cacheEngine" class="ru.otus.war.cache.CacheEngineImpl">
+        <constructor-arg value="100000"/>
+        <constructor-arg value="300000"/>
+        <constructor-arg value="0"/>
+        <constructor-arg value="false"/>
+    </bean>
+
     <bean id="dbService" class="ru.otus.war.DBservice.DBServiceHibernateImpl">
+        <constructor-arg ref="cacheEngine"/>
     </bean>
 
     <bean id="templateProcessor" class="ru.otus.war.servlet.TemplateProcessor">

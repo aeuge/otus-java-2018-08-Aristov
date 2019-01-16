@@ -6,6 +6,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import ru.otus.war.DBservice.DBService;
 import ru.otus.war.DBservice.DBServiceHibernateImpl;
+import ru.otus.war.cache.CacheEngineImpl;
 import ru.otus.war.dataset.AddressDataSet;
 import ru.otus.war.dataset.PhoneDataSet;
 import ru.otus.war.dataset.UsersDataSet;
@@ -19,7 +20,7 @@ public class TestORM {
 
     @Test
     public void commonHibernate() {
-        try (DBService dbService = new DBServiceHibernateImpl()){
+        try (DBService dbService = new DBServiceHibernateImpl(new CacheEngineImpl<Long,UsersDataSet>(100,300000,0,false))){
             tryLoadAndSaveUserDataSet(dbService);
         } catch (Exception e) {
             logger.info("FAIL" + e.getMessage());
@@ -29,7 +30,7 @@ public class TestORM {
 
     @Test
     public void readByNameHibernate() {
-        try (DBService dbService = new DBServiceHibernateImpl()){
+        try (DBService dbService = new DBServiceHibernateImpl(new CacheEngineImpl<Long,UsersDataSet>(100,300000,0,false))){
             tryLoadAndSaveUserDataSet2(dbService);
         } catch (Exception e) {
             logger.info("FAIL" + e.getMessage());
@@ -39,7 +40,7 @@ public class TestORM {
 
     @Test
     public void readAllHibernate() {
-        try (DBService dbService = new DBServiceHibernateImpl()){
+        try (DBService dbService = new DBServiceHibernateImpl(new CacheEngineImpl<Long,UsersDataSet>(100,300000,0,false))){
             tryLoadAndSaveUserDataSet(dbService);
             tryLoadAndSaveUserDataSet2(dbService);
             List<UsersDataSet> dataSets = dbService.readAll(UsersDataSet.class);

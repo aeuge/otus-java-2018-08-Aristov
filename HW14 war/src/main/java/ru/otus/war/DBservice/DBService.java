@@ -15,4 +15,5 @@ public interface DBService extends AutoCloseable {
 
     <T extends DataSet> List<T> readAll(Class<T> clazz);
 
+    int getCacheCount();
 }

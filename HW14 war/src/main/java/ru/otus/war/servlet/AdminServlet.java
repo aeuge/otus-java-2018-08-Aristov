@@ -3,6 +3,7 @@ package ru.otus.war.servlet;
 import org.springframework.context.ApplicationContext;
 import org.springframework.context.support.ClassPathXmlApplicationContext;
 import ru.otus.war.DBservice.DBService;
+import ru.otus.war.DBservice.DBServiceHibernateImpl;
 import ru.otus.war.dataset.UsersDataSet;
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
@@ -19,8 +20,10 @@ public class AdminServlet extends HttpServlet {
     private static final String ADMIN_NAME = "admin";
     private static final String VARIABLE_USERS = "Users";
     private static final String VARIABLE_NUMBER_OF_USERS = "numberOfUsers";
+    private static final String VARIABLE_NUMBER_OF_CACHED_USERS = "numberOfCachedUsers";
     private DBService dbService;
     private int numberOfUsers = 0;
+    public String temp = new String();
 
     private TemplateProcessor templateProcessor;
 
@@ -38,6 +41,7 @@ public class AdminServlet extends HttpServlet {
         numberOfUsers = uds.size();
         pageVariables.put(VARIABLE_USERS, uds);
         pageVariables.put(VARIABLE_NUMBER_OF_USERS, numberOfUsers);
+        pageVariables.put(VARIABLE_NUMBER_OF_CACHED_USERS, dbService.getCacheCount());
         return pageVariables;
     }
 

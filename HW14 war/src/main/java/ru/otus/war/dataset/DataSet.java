@@ -30,7 +30,6 @@ public abstract class DataSet {
 
     @Override
     public int hashCode() {
-
         return Objects.hash(id);
     }
 

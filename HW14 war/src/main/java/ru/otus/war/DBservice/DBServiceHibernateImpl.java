@@ -6,6 +6,8 @@ import org.hibernate.Transaction;
 import org.hibernate.boot.registry.StandardServiceRegistryBuilder;
 import org.hibernate.cfg.Configuration;
 import org.hibernate.service.ServiceRegistry;
+import ru.otus.war.cache.CacheElement;
+import ru.otus.war.cache.CacheEngine;
 import ru.otus.war.dao.UsersHibernateDAO;
 import ru.otus.war.dataset.*;
 import ru.otus.war.db.DBHibernateConfiguration;
@@ -14,8 +16,10 @@ import java.util.function.Function;
 
 public class DBServiceHibernateImpl implements DBService {
     private final SessionFactory sessionFactory;
+    CacheEngine<Long, UsersDataSet> cache;
 
-    public DBServiceHibernateImpl() {
+    public DBServiceHibernateImpl(CacheEngine cacheEngine) {
+        cache = cacheEngine;
         sessionFactory = createSessionFactory(DBHibernateConfiguration.fill());
     }
 
@@ -44,6 +48,8 @@ public class DBServiceHibernateImpl implements DBService {
     }
 
     public <T extends DataSet> T read(long id, Class<T> clazz) {
+        CacheElement<Long, UsersDataSet> element = cache.get(id);
+        if (element != null) return (T) element.getValue();
         return runInSession(session -> {
             UsersHibernateDAO dao = new UsersHibernateDAO(session);
             return dao.read(id, clazz);
@@ -60,9 +66,17 @@ public class DBServiceHibernateImpl implements DBService {
     public <T extends DataSet> List<T> readAll(Class<T> clazz) {
         return runInSession(session -> {
             UsersHibernateDAO dao = new UsersHibernateDAO(session);
-            return dao.readAll(clazz);
+            List<T> list = dao.readAll(clazz);
+            for (T el : list) {
+                cache.put(new CacheElement<>(el.getId(),(UsersDataSet) el));
+            }
+
+            return list;
         });
     }
+
+    @Override
+    public int getCacheCount() { return cache.getCount(); }
 
     private <R> R runInSession(Function<Session, R> function) {
         try (Session session = sessionFactory.openSession()) {
