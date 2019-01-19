@@ -9,6 +9,7 @@ import org.hibernate.service.ServiceRegistry;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Configurable;
 import org.springframework.stereotype.Component;
+import org.springframework.stereotype.Service;
 import org.springframework.web.context.support.SpringBeanAutowiringSupport;
 import ru.otus.war.cache.CacheElement;
 import ru.otus.war.cache.CacheEngine;
@@ -18,17 +19,18 @@ import ru.otus.war.db.DBHibernateConfiguration;
 import java.util.List;
 import java.util.function.Function;
 
-@Component
+@Service("DBService")
 public class DBServiceHibernateImpl implements DBService {
-    private SessionFactory sessionFactory=null;
+    private SessionFactory sessionFactory;
     @Autowired
     CacheEngine<Long, UsersDataSet> cache;
 
-    //sessionFactory = createSessionFactory(DBHibernateConfiguration.fill());
     public DBServiceHibernateImpl() {
+        sessionFactory = createSessionFactory(DBHibernateConfiguration.fill());
     }
-    public void init(){
-        SpringBeanAutowiringSupport.processInjectionBasedOnCurrentContext(this);
+
+    public DBServiceHibernateImpl(SessionFactory sessionFactory) {
+        this.sessionFactory = sessionFactory;
     }
 
     private static SessionFactory createSessionFactory(Configuration configuration) {

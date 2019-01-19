@@ -1,12 +1,14 @@
 package ru.otus.war.db;
 
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
+import org.springframework.stereotype.Service;
 import ru.otus.war.DBservice.DBService;
 import ru.otus.war.dataset.*;
 
 @Component
 public class DBDataInitializer {
-    public DBDataInitializer(DBService dbService) {
+    public DBDataInitializer(@Autowired DBService dbService) {
         try {
             UsersDataSet user1 = new UsersDataSet(
                     "tully",

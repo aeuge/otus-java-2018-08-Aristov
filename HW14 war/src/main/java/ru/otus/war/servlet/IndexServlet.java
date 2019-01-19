@@ -22,15 +22,13 @@ public class IndexServlet extends HttpServlet {
     private static final String ADMIN_PAGE_PASSWORD = "password";
     @Autowired
     private DBService dbService;
+    @Autowired
     private TemplateProcessor templateProcessor;
 
     @Override
     public void init(ServletConfig config) throws ServletException{
         super.init(config);
         SpringBeanAutowiringSupport.processInjectionBasedOnCurrentContext(this);
-        try {
-            templateProcessor = new TemplateProcessor();
-        } catch (Exception e) {}
     }
 
     private static Map<String, Object> createPageVariablesMap(HttpServletRequest request) {

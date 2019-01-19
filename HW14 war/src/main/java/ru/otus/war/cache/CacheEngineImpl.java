@@ -1,11 +1,12 @@
 package ru.otus.war.cache;
 
 import org.springframework.stereotype.Component;
+import org.springframework.stereotype.Service;
 
 import java.util.*;
 import java.util.function.Function;
 
-@Component
+@Service("CacheEngine")
 public class CacheEngineImpl<K, V> implements CacheEngine<K, V> {
     private static final int TIME_THRESHOLD_MS = 100;
 
