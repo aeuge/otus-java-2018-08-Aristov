@@ -9,6 +9,7 @@ import ru.otus.war.DBservice.DBService;
 
 import javax.servlet.ServletConfig;
 import javax.servlet.ServletException;
+import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -16,7 +17,7 @@ import java.io.IOException;
 import java.util.HashMap;
 import java.util.Map;
 
-@Configurable
+@WebServlet
 public class IndexServlet extends HttpServlet {
     private static final String INDEX_PAGE_TEMPLATE = "index.html";
     private static final String ADMIN_PAGE_PASSWORD = "password";

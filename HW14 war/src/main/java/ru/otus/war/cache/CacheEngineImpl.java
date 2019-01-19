@@ -1,6 +1,5 @@
 package ru.otus.war.cache;
 
-import org.springframework.stereotype.Component;
 import org.springframework.stereotype.Service;
 
 import java.util.*;
