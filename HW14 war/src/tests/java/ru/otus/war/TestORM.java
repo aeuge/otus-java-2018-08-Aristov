@@ -17,43 +17,14 @@ import java.util.List;
 
 public class TestORM {
     private static Logger logger = LoggerFactory.getLogger(TestORM.class);
+    private DBService dbService;
 
     @Test
     public void commonHibernate() {
-        try (DBService dbService = new DBServiceHibernateImpl(new CacheEngineImpl<Long,UsersDataSet>(100,300000,0,false))){
-            tryLoadAndSaveUserDataSet(dbService);
-        } catch (Exception e) {
-            logger.info("FAIL" + e.getMessage());
-            Assertions.fail("FAIL");
-        }
+        tryLoadAndSaveUserDataSet();
     }
 
-    @Test
-    public void readByNameHibernate() {
-        try (DBService dbService = new DBServiceHibernateImpl(new CacheEngineImpl<Long,UsersDataSet>(100,300000,0,false))){
-            tryLoadAndSaveUserDataSet2(dbService);
-        } catch (Exception e) {
-            logger.info("FAIL" + e.getMessage());
-            Assertions.fail("FAIL");
-        }
-    }
-
-    @Test
-    public void readAllHibernate() {
-        try (DBService dbService = new DBServiceHibernateImpl(new CacheEngineImpl<Long,UsersDataSet>(100,300000,0,false))){
-            tryLoadAndSaveUserDataSet(dbService);
-            tryLoadAndSaveUserDataSet2(dbService);
-            List<UsersDataSet> dataSets = dbService.readAll(UsersDataSet.class);
-            for (UsersDataSet userDataSet: dataSets) {
-                System.out.println("Read all: " + userDataSet);
-            }
-        } catch (Exception e) {
-            logger.info("FAIL" + e.getMessage());
-            Assertions.fail("FAIL");
-        }
-    }
-
-    private void tryLoadAndSaveUserDataSet(DBService dbService) {
+    private void tryLoadAndSaveUserDataSet() {
         try {
             UsersDataSet user1 = new UsersDataSet(
                     "tully",
@@ -71,7 +42,12 @@ public class TestORM {
         }
     }
 
-    private void tryLoadAndSaveUserDataSet2(DBService dbService) {
+    @Test
+    public void readByNameHibernate() {
+            tryLoadAndSaveUserDataSet2();
+    }
+
+    private void tryLoadAndSaveUserDataSet2() {
         try {
             UsersDataSet user2 = new UsersDataSet(
                     "sully",
@@ -87,6 +63,13 @@ public class TestORM {
         }
     }
 
-
+    @Test
+    public void readAllHibernate() {
+            tryLoadAndSaveUserDataSet();
+            tryLoadAndSaveUserDataSet2();
+            List<UsersDataSet> dataSets = dbService.readAll(UsersDataSet.class);
+            for (UsersDataSet userDataSet: dataSets)
+                System.out.println("Read all: " + userDataSet);
+    }
 
 }

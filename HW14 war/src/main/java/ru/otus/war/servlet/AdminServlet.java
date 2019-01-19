@@ -1,10 +1,14 @@
 package ru.otus.war.servlet;
 
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Configurable;
 import org.springframework.context.ApplicationContext;
 import org.springframework.context.support.ClassPathXmlApplicationContext;
+import org.springframework.web.context.support.SpringBeanAutowiringSupport;
 import ru.otus.war.DBservice.DBService;
-import ru.otus.war.DBservice.DBServiceHibernateImpl;
 import ru.otus.war.dataset.UsersDataSet;
+
+import javax.servlet.ServletConfig;
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
@@ -14,6 +18,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+@Configurable
 public class AdminServlet extends HttpServlet {
 
     private static final String ADMIN_PAGE_TEMPLATE = "admin.html";
@@ -21,18 +26,17 @@ public class AdminServlet extends HttpServlet {
     private static final String VARIABLE_USERS = "Users";
     private static final String VARIABLE_NUMBER_OF_USERS = "numberOfUsers";
     private static final String VARIABLE_NUMBER_OF_CACHED_USERS = "numberOfCachedUsers";
+    @Autowired
     private DBService dbService;
     private int numberOfUsers = 0;
     public String temp = new String();
-
+    @Autowired
     private TemplateProcessor templateProcessor;
 
-    public void init() {
-        ApplicationContext context =
-                new ClassPathXmlApplicationContext(
-                        "SpringBeans.xml");
-        dbService = context.getBean("dbService", DBService.class);
-        templateProcessor = context.getBean("templateProcessor", TemplateProcessor.class);
+    @Override
+    public void init(ServletConfig config) throws ServletException{
+        super.init(config);
+        SpringBeanAutowiringSupport.processInjectionBasedOnCurrentContext(this);
     }
 
     private Map<String, Object> createPageVariablesMap(HttpServletRequest request) {

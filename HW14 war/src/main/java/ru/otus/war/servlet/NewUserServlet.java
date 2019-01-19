@@ -1,10 +1,15 @@
 package ru.otus.war.servlet;
 
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Configurable;
 import org.springframework.context.ApplicationContext;
 import org.springframework.context.support.ClassPathXmlApplicationContext;
+import org.springframework.web.context.support.SpringBeanAutowiringSupport;
 import ru.otus.war.DBservice.DBService;
 import ru.otus.war.dataset.AddressDataSet;
 import ru.otus.war.dataset.UsersDataSet;
+
+import javax.servlet.ServletConfig;
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
@@ -13,6 +18,7 @@ import java.io.IOException;
 import java.util.HashMap;
 import java.util.Map;
 
+@Configurable
 public class NewUserServlet extends HttpServlet {
     private static final String NEWUSER_PAGE_TEMPLATE = "newuser.html";
     private static final String ADMIN_NAME = "admin";
@@ -20,15 +26,15 @@ public class NewUserServlet extends HttpServlet {
     private static final String VARIABLE_AGE = "age";
     private static final String VARIABLE_ADDRESS = "address";
     private static final String VARIABLE_PHONES = "phones";
+    @Autowired
     private DBService dbService;
+    @Autowired
     private TemplateProcessor templateProcessor;
 
-    public void init() {
-        ApplicationContext context =
-                new ClassPathXmlApplicationContext(
-                        "SpringBeans.xml");
-        dbService = context.getBean("dbService", DBService.class);
-        templateProcessor = context.getBean("templateProcessor", TemplateProcessor.class);
+    @Override
+    public void init(ServletConfig config) throws ServletException{
+        super.init(config);
+        SpringBeanAutowiringSupport.processInjectionBasedOnCurrentContext(this);
     }
 
     private Map<String, Object> createPageVariablesMap(HttpServletRequest request) {

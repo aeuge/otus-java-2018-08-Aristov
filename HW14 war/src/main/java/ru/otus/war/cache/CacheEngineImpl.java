@@ -1,8 +1,11 @@
 package ru.otus.war.cache;
 
+import org.springframework.stereotype.Component;
+
 import java.util.*;
 import java.util.function.Function;
 
+@Component
 public class CacheEngineImpl<K, V> implements CacheEngine<K, V> {
     private static final int TIME_THRESHOLD_MS = 100;
 
@@ -16,6 +19,13 @@ public class CacheEngineImpl<K, V> implements CacheEngine<K, V> {
 
     private int hit = 0;
     private int miss = 0;
+
+    public CacheEngineImpl() {
+        this.maxElements = 10000;
+        this.lifeTimeMs = 300000;
+        this.idleTimeMs = 0;
+        this.isEternal = false;
+    }
 
     public CacheEngineImpl(int maxElements, long lifeTimeMs, long idleTimeMs, boolean isEternal) {
         this.maxElements = maxElements;

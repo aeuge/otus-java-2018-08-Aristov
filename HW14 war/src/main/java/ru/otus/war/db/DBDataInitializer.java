@@ -1,8 +1,10 @@
 package ru.otus.war.db;
 
+import org.springframework.stereotype.Component;
 import ru.otus.war.DBservice.DBService;
 import ru.otus.war.dataset.*;
 
+@Component
 public class DBDataInitializer {
     public DBDataInitializer(DBService dbService) {
         try {

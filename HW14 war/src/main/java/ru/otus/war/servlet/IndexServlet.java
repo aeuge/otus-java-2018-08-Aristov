@@ -1,7 +1,13 @@
 package ru.otus.war.servlet;
 
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Configurable;
 import org.springframework.context.ApplicationContext;
 import org.springframework.context.support.ClassPathXmlApplicationContext;
+import org.springframework.web.context.support.SpringBeanAutowiringSupport;
+import ru.otus.war.DBservice.DBService;
+
+import javax.servlet.ServletConfig;
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
@@ -10,19 +16,21 @@ import java.io.IOException;
 import java.util.HashMap;
 import java.util.Map;
 
+@Configurable
 public class IndexServlet extends HttpServlet {
-
-    private static final String DEFAULT_USER_NAME = "UNKNOWN";
     private static final String INDEX_PAGE_TEMPLATE = "index.html";
     private static final String ADMIN_PAGE_PASSWORD = "password";
-
+    @Autowired
+    private DBService dbService;
     private TemplateProcessor templateProcessor;
 
-    public void init() {
-        ApplicationContext context =
-                new ClassPathXmlApplicationContext(
-                        "SpringBeans.xml");
-        templateProcessor = context.getBean("templateProcessor", TemplateProcessor.class);
+    @Override
+    public void init(ServletConfig config) throws ServletException{
+        super.init(config);
+        SpringBeanAutowiringSupport.processInjectionBasedOnCurrentContext(this);
+        try {
+            templateProcessor = new TemplateProcessor();
+        } catch (Exception e) {}
     }
 
     private static Map<String, Object> createPageVariablesMap(HttpServletRequest request) {
@@ -49,7 +57,6 @@ public class IndexServlet extends HttpServlet {
                       HttpServletResponse response) throws ServletException, IOException {
 
         Map<String, Object> pageVariables = createPageVariablesMap(request);
-
         response.setContentType("text/html;charset=utf-8");
         String page = templateProcessor.getPage(INDEX_PAGE_TEMPLATE, pageVariables);
         response.getWriter().println(page);

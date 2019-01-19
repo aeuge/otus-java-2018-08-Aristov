@@ -11,6 +11,18 @@ import java.util.Objects;
 public class UsersDataSet extends DataSet {
     @Column
     private String name;
+    @Column(name="age")
+    private int age;
+    @OneToOne(cascade = CascadeType.ALL)
+    //@JoinColumn(name = "user_id", nullable = false) // default is address_id
+    private AddressDataSet address = null;
+
+    @OneToMany(
+            mappedBy = "user",
+            cascade = CascadeType.ALL
+    )
+    private List<PhoneDataSet> phones = new ArrayList<>();
+
 
     public int getAge() {
         return age;
@@ -20,29 +32,17 @@ public class UsersDataSet extends DataSet {
         this.age = age;
     }
 
-    @Column(name="age")
-    private int age;
-
     public void setAddress(String address) {
         this.address.setAddress(address);
     }
 
-    @OneToOne(cascade = CascadeType.ALL)
-    //@JoinColumn(name = "user_id", nullable = false) // default is address_id
-    private AddressDataSet address = null;
-
-
-    @OneToMany(
-            mappedBy = "user",
-            cascade = CascadeType.ALL
-    )
-    private List<PhoneDataSet> phones = new ArrayList<>();
-
     public UsersDataSet() {
     }
+
     public UsersDataSet(long id, String name, AddressDataSet address, PhoneDataSet... phones) {
             this(id, name, 10, address, phones);
     }
+
     public UsersDataSet(long id, String name, int age, AddressDataSet address, PhoneDataSet... phones) {
         this.setId(id);
         this.setName(name);

@@ -3,14 +3,15 @@ package ru.otus.war.servlet;
 import freemarker.template.Configuration;
 import freemarker.template.Template;
 import freemarker.template.TemplateException;
+import org.springframework.beans.factory.annotation.Configurable;
+import org.springframework.stereotype.Component;
+
 import java.io.IOException;
 import java.io.StringWriter;
 import java.io.Writer;
 import java.util.Map;
 
-/**
- * @author v.chibrikov
- */
+@Component
 public class TemplateProcessor {
     private static final String HTML_DIR = "/tml/";
 
