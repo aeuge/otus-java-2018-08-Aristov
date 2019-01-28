@@ -15,6 +15,7 @@
         <freemarker.version>2.3.28</freemarker.version>
         <spring.version>5.1.4.RELEASE</spring.version>
         <jetty.version>9.4.11.v20180605</jetty.version>
+        <lombok.version>1.18.4</lombok.version>
     </properties>
 
     <dependencies>
@@ -93,6 +94,12 @@
             <groupId>org.springframework</groupId>
             <artifactId>spring-aspects</artifactId>
             <version>${spring.version}</version>
+        </dependency>
+        <dependency>
+            <groupId>org.projectlombok</groupId>
+            <artifactId>lombok</artifactId>
+            <version>${lombok.version}</version>
+            <scope>provided</scope>
         </dependency>
     </dependencies>
 

@@ -22,4 +22,8 @@
         <constructor-arg ref="dbService"/>
     </bean>
 
+    <bean id="messageSystem" class="ru.otus.wsq.messagesystem.MessageSystemImpl">
+        <constructor-arg ref="dbService"/>
+    </bean>
+
 </beans>

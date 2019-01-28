@@ -1,9 +1,9 @@
 <html><head><meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
     <link href="css/bootstrap.css" rel="stylesheet">
-    <script type="text/javascript" src="css/jquery-3.js"></script>
+    <script type="text/javascript" src="css/ws.js" ></script>
     <link href="css/auth.css" rel="stylesheet">
     <title>Изменение пользователей</title></head>
-<body><div class="TitleTop">Изменение пользователей</div>
+<body onload="init();"><div class="TitleTop">Изменение пользователей</div>
 <div class="text-white">
 <h1 class="zapros">Все записи:</h1>
     <#list Users>
@@ -28,6 +28,13 @@
 <div class="text-white">
     <h1 class="zapros">Количество пользователей в базе: ${numberOfUsers}</h1>
     <h1 class="zapros">Количество закешированных пользователей в базе: ${numberOfCachedUsers}</h1>
+</div>
+<div class="idUserDataSet">
+    <form method="post" action="">
+    <input type="text" id="idws" placeholder="Введите ID пользователя" required="required">
+    <input type="button" name="submitmsg" class="btn btn-primary btn-block btn-large" value="Поиск через вебсокет и очередь" onclick="sendMessage();"/>
+        <h3 id="resultws" class="text-white"></h3>
+    </form>
 </div>
 <div class="idUserDataSet">
     <form method="post" action="info">

@@ -8,12 +8,12 @@ import java.util.concurrent.TimeUnit;
 /**
  * This class represents a servlet starting a webSocket application
  */
-public class WebSocketChatServlet extends WebSocketServlet {
+public class MessageSocketChatServlet extends WebSocketServlet {
     private final static long LOGOUT_TIME = TimeUnit.MINUTES.toMillis(10);
 
     @Override
     public void configure(WebSocketServletFactory factory) {
         factory.getPolicy().setIdleTimeout(LOGOUT_TIME);
-        factory.setCreator(new ChatWebSocketCreator());
+        factory.setCreator(new MessageWebSocketCreator());
     }
 }

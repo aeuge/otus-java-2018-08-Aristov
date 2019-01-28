@@ -6,6 +6,7 @@ import org.hibernate.Transaction;
 import org.hibernate.boot.registry.StandardServiceRegistryBuilder;
 import org.hibernate.cfg.Configuration;
 import org.hibernate.service.ServiceRegistry;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import ru.otus.wsq.cache.CacheElement;
 import ru.otus.wsq.cache.CacheEngine;
@@ -13,6 +14,9 @@ import ru.otus.wsq.cache.CacheEngineImpl;
 import ru.otus.wsq.dao.UsersHibernateDAO;
 import ru.otus.wsq.dataset.*;
 import ru.otus.wsq.db.DBHibernateConfiguration;
+import ru.otus.wsq.messagesystem.Message;
+import ru.otus.wsq.messagesystem.MessageSystem;
+
 import java.util.List;
 import java.util.function.Function;
 
@@ -21,6 +25,8 @@ public class DBServiceHibernateImpl implements DBService {
     private SessionFactory sessionFactory;
     //@Autowired
     private CacheEngine<Long, UsersDataSet> cache = new CacheEngineImpl<>();
+    @Autowired
+    private MessageSystem messageSystem;
 
     public DBServiceHibernateImpl(CacheEngine cacheEngine) {
         this.cache= cacheEngine;

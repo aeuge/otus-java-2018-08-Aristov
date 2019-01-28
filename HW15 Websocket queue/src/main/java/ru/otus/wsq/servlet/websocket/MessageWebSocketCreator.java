@@ -11,17 +11,17 @@ import java.util.concurrent.ConcurrentHashMap;
 /**
  * @author v.chibrikov
  */
-public class ChatWebSocketCreator implements WebSocketCreator {
-    private Set<ChatWebSocket> users;
+public class MessageWebSocketCreator implements WebSocketCreator {
+    private Set<MessageWebSocket> users;
 
-    public ChatWebSocketCreator() {
+    public MessageWebSocketCreator() {
         this.users = Collections.newSetFromMap(new ConcurrentHashMap<>());
         System.out.println("WebSocketCreator created");
     }
 
     @Override
     public Object createWebSocket(ServletUpgradeRequest req, ServletUpgradeResponse resp) {
-        ChatWebSocket socket = new ChatWebSocket(users);
+        MessageWebSocket socket = new MessageWebSocket(users);
         System.out.println("Socket created");
         return socket;
     }

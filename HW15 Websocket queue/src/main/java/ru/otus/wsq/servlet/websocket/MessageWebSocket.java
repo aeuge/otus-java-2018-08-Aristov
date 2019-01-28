@@ -5,27 +5,35 @@ import org.eclipse.jetty.websocket.api.annotations.OnWebSocketClose;
 import org.eclipse.jetty.websocket.api.annotations.OnWebSocketConnect;
 import org.eclipse.jetty.websocket.api.annotations.OnWebSocketMessage;
 import org.eclipse.jetty.websocket.api.annotations.WebSocket;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Configurable;
+import org.springframework.web.context.support.SpringBeanAutowiringSupport;
+import ru.otus.wsq.messagesystem.Message;
+import ru.otus.wsq.messagesystem.MessageSystem;
 
 import java.util.Set;
 
 @WebSocket
-public class ChatWebSocket {
-    private Set<ChatWebSocket> users;
+public class MessageWebSocket {
+    private Set<MessageWebSocket> users;
     private Session session;
 
-    public ChatWebSocket(Set<ChatWebSocket> users) {
+    @Autowired
+    private MessageSystem messageSystem;
+
+    public MessageWebSocket(Set<MessageWebSocket> users) {
         this.users = users;
+        SpringBeanAutowiringSupport.processInjectionBasedOnCurrentContext(this);
     }
 
     @OnWebSocketMessage
     public void onMessage(String data) {
-        for (ChatWebSocket user : users) {
-            try {
-                user.getSession().getRemote().sendString(data);
-                System.out.println("Sending message: " + data);
-            } catch (Exception e) {
-                System.out.print(e.toString());
-            }
+        try {
+            Message message = new Message(this,data);
+            messageSystem.sendMessageToDB(message);
+            System.out.println("Sending message to DB: " + data);
+        } catch (Exception e) {
+            System.out.print(e.toString());
         }
     }
 
@@ -48,5 +56,9 @@ public class ChatWebSocket {
     public void onClose(int statusCode, String reason) {
         users.remove(this);
         System.out.println("onClose");
+    }
+
+    public void sendMessage(Message message){
+
     }
 }
