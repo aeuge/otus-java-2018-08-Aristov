@@ -6,31 +6,34 @@ import org.hibernate.Transaction;
 import org.hibernate.boot.registry.StandardServiceRegistryBuilder;
 import org.hibernate.cfg.Configuration;
 import org.hibernate.service.ServiceRegistry;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import ru.otus.wsq.cache.CacheElement;
 import ru.otus.wsq.cache.CacheEngine;
-import ru.otus.wsq.cache.CacheEngineImpl;
 import ru.otus.wsq.dao.UsersHibernateDAO;
 import ru.otus.wsq.dataset.*;
 import ru.otus.wsq.db.DBHibernateConfiguration;
-import ru.otus.wsq.messagesystem.Message;
+import ru.otus.wsq.messagesystem.Address;
+import ru.otus.wsq.messagesystem.Addressee;
 import ru.otus.wsq.messagesystem.MessageSystem;
-
+import ru.otus.wsq.messagesystem.MessageSystemContext;
 import java.util.List;
 import java.util.function.Function;
 
 @Service
-public class DBServiceHibernateImpl implements DBService {
+public class DBServiceHibernateImpl implements DBService, Addressee {
+    private Address address;
     private SessionFactory sessionFactory;
-    //@Autowired
-    private CacheEngine<Long, UsersDataSet> cache = new CacheEngineImpl<>();
-    @Autowired
-    private MessageSystem messageSystem;
+    private CacheEngine<Long, UsersDataSet> cache;
 
-    public DBServiceHibernateImpl(CacheEngine cacheEngine) {
+    private MessageSystemContext context;
+
+    public DBServiceHibernateImpl(CacheEngine cacheEngine, String address, MessageSystemContext messageSystemContext) {
         this.cache= cacheEngine;
+        this.address = new Address(address);
         sessionFactory = createSessionFactory(DBHibernateConfiguration.fill());
+        context = messageSystemContext;
+        context.setDbAddress(this.address);
+        context.getMessageSystem().addAddressee(this);
     }
 
     private static SessionFactory createSessionFactory(Configuration configuration) {
@@ -96,5 +99,15 @@ public class DBServiceHibernateImpl implements DBService {
     @Override
     public void close() throws Exception {
         sessionFactory.close();
+    }
+
+    @Override
+    public Address getAddress() {
+        return address;
+    }
+
+    @Override
+    public MessageSystem getMS() {
+        return context.getMessageSystem();
     }
 }

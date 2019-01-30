@@ -11,8 +11,17 @@
         <constructor-arg value="false"/>
     </bean>
 
+    <bean id="messageSystem" class="ru.otus.wsq.messagesystem.MessageSystemImpl">
+    </bean>
+
+    <bean id="messageSystemContext" class="ru.otus.wsq.messagesystem.MessageSystemContext">
+        <constructor-arg ref="messageSystem"/>
+    </bean>
+
     <bean id="dbService" class="ru.otus.wsq.DBservice.DBServiceHibernateImpl">
         <constructor-arg ref="cacheEngine"/>
+        <constructor-arg value="DBService"/>
+        <constructor-arg ref="messageSystemContext"/>
     </bean>
 
     <bean id="templateProcessor" class="ru.otus.wsq.servlet.TemplateProcessor">
@@ -21,9 +30,4 @@
     <bean id="dbDataInitializer" class="ru.otus.wsq.db.DBDataInitializer">
         <constructor-arg ref="dbService"/>
     </bean>
-
-    <bean id="messageSystem" class="ru.otus.wsq.messagesystem.MessageSystemImpl">
-        <constructor-arg ref="dbService"/>
-    </bean>
-
 </beans>

@@ -1,14 +1,11 @@
 package ru.otus.wsq.messagesystem;
 
-import lombok.AllArgsConstructor;
 import lombok.Data;
-import lombok.NoArgsConstructor;
-import ru.otus.wsq.servlet.websocket.MessageWebSocket;
 
 @Data
-@NoArgsConstructor
-@AllArgsConstructor
-public class Message {
-    private MessageWebSocket mws;
-    private String message;
+public abstract class Message {
+    private final Address from;
+    private final Address to;
+
+    public abstract void exec(Addressee addressee);
 }

@@ -1,7 +1,10 @@
 package ru.otus.wsq.DBservice;
 
 import ru.otus.wsq.dataset.DataSet;
+import ru.otus.wsq.messagesystem.MessageSystem;
+
 import java.sql.SQLException;
+import java.util.Collection;
 import java.util.List;
 
 public interface DBService extends AutoCloseable {
@@ -16,4 +19,6 @@ public interface DBService extends AutoCloseable {
     <T extends DataSet> List<T> readAll(Class<T> clazz);
 
     int getCacheCount();
+
+    MessageSystem getMS();
 }

@@ -1,88 +1,68 @@
 package ru.otus.wsq.messagesystem;
 
-import ru.otus.wsq.DBservice.DBService;
-import ru.otus.wsq.dataset.UsersDataSet;
-import java.io.IOException;
-import java.sql.SQLException;
-import java.util.ArrayList;
-import java.util.List;
+import java.util.HashMap;
+import java.util.Map;
 import java.util.concurrent.LinkedBlockingQueue;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
 public final class MessageSystemImpl implements MessageSystem{
-    private final static Logger logger = Logger.getLogger(MessageSystemImpl.class.getName());
-    private static final int DEFAULT_STEP_TIME = 10;
+    private final static Logger logger = Logger.getLogger(MessageSystem.class.getName());
 
-    private final List<Thread> workers;
-    private final LinkedBlockingQueue<Message> messagestoDB;
-    private final LinkedBlockingQueue<Message> messagestoFS;
+    private final Map<Address, Thread> workers;
+    private final Map<Address, LinkedBlockingQueue<Message>> messagesMap;
+    private final Map<Address, Addressee> addresseeMap;
 
-    private DBService dbService;
-
-    public MessageSystemImpl(DBService dbService) {
-        this.dbService = dbService;
-        workers = new ArrayList<>();
-        messagestoDB = new LinkedBlockingQueue<>();
-        messagestoFS = new LinkedBlockingQueue<>();
-        startDB();
-        startFS();
-        System.out.println("ms created");
+    public MessageSystemImpl() {
+        workers = new HashMap<>();
+        messagesMap = new HashMap<>();
+        addresseeMap = new HashMap<>();
+        logger.log(Level.INFO,"ms started");
     }
 
-    public void sendMessageToDB(Message message) { messagestoDB.add(message); }
-
-    public void sendMessageToFS(Message message) { messagestoFS.add(message); }
-
-    public void startDB() {
-            String name = "MS-worker-DB";
-            Thread thread = new Thread(() -> {
-                while (true) {
-                    try {
-                        Message message = messagestoDB.take();
-                        UsersDataSet uds = dbService.read(Integer.decode(message.getMessage()),UsersDataSet.class);
-                        if (uds==null) {
-                            message.setMessage("Объекта с таким ID не существует");
-                        } else
-                            message.setMessage(uds.toString());
-                        messagestoFS.add(message);
-                        logger.log(Level.INFO,"Sending message to FS: " + message.getMessage());
-                    } catch (InterruptedException e) {
-                        logger.log(Level.INFO, "Thread interrupted. Finishing: " + name);
-                        return;
-                    } catch (SQLException e) {
-                        logger.log(Level.INFO, "SQL Exception: " + name);
-                        return;
-                    }
-                }
-            });
-            thread.setName(name);
-            thread.start();
-            workers.add(thread);
+    public void addAddressee(Addressee addressee) {
+        addresseeMap.put(addressee.getAddress(), addressee);
+        messagesMap.put(addressee.getAddress(), new LinkedBlockingQueue<>());
+        startThread(addressee);
     }
 
-    public void startFS() {
-        String name = "MS-worker-FS";
+    public void sendMessage(Message message) {
+        Address address = message.getTo();
+        messagesMap.get(address).add(message);
+        System.out.println("put message to db queue");
+    }
+
+    private void startThread(Addressee addressee) {
+        String name = "MS-worker-" + addressee.getAddress().getId();
         Thread thread = new Thread(() -> {
+            LinkedBlockingQueue<Message> queue = messagesMap.get(addressee.getAddress());
             while (true) {
                 try {
-                    Message message = messagestoFS.take();
-                    message.getMws().getSession().getRemote().sendString(message.getMessage());
+                    Message message = queue.take();
+                    message.exec(addressee);
+                    System.out.println("exec message for " + name);
                 } catch (InterruptedException e) {
                     logger.log(Level.INFO, "Thread interrupted. Finishing: " + name);
-                    return;
-                } catch (IOException e) {
-                    logger.log(Level.INFO, "IO Exception: " + name);
                     return;
                 }
             }
         });
         thread.setName(name);
         thread.start();
-        workers.add(thread);
+        workers.put(addressee.getAddress(),thread);
+        logger.log(Level.INFO,"thread " + name + " started");
+    }
+
+    public void endThread(Addressee addressee) {
+        workers.get(addressee.getAddress()).interrupt();
+        messagesMap.remove(addressee.getAddress());
+        addresseeMap.remove(addressee.getAddress());
+        logger.log(Level.INFO,"thread " + addressee.getAddress() + " interrupted");
     }
 
     public void dispose() {
-        workers.forEach(Thread::interrupt);
+        for (Map.Entry<Address, Thread> entry : workers.entrySet()) {
+            entry.getValue().interrupt();
+        }
     }
 }
