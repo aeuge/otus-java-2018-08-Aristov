@@ -1,7 +1,7 @@
-package ru.otus.wsq.db;
+package ru.otus.wsq.DBservice.db;
 
 import org.springframework.stereotype.Component;
-import ru.otus.wsq.DBservice.DBService;
+import ru.otus.wsq.app.DBService;
 import ru.otus.wsq.dataset.*;
 
 @Component

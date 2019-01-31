@@ -1,10 +1,11 @@
-package ru.otus.wsq.messagesystem.messages;
+package ru.otus.wsq.app.messages;
 
 import lombok.Data;
-import ru.otus.wsq.DBservice.DBService;
+import ru.otus.wsq.app.DBService;
 import ru.otus.wsq.dataset.UsersDataSet;
 import ru.otus.wsq.messagesystem.Address;
-import ru.otus.wsq.messagesystem.MessageToDB;
+import ru.otus.wsq.app.MessageToDB;
+
 import java.sql.SQLException;
 
 @Data

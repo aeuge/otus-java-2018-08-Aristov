@@ -1,6 +1,9 @@
-package ru.otus.wsq.messagesystem;
+package ru.otus.wsq.app;
 
-import ru.otus.wsq.DBservice.DBService;
+import ru.otus.wsq.app.DBService;
+import ru.otus.wsq.messagesystem.Address;
+import ru.otus.wsq.messagesystem.Addressee;
+import ru.otus.wsq.messagesystem.Message;
 
 public abstract class MessageToDB extends Message {
     public MessageToDB(Address from, Address to) {

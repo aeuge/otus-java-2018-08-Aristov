@@ -1,9 +1,9 @@
-package ru.otus.wsq.messagesystem.messages;
+package ru.otus.wsq.app.messages;
 
 import lombok.Data;
+import ru.otus.wsq.app.MessageWebSocket;
 import ru.otus.wsq.messagesystem.Address;
-import ru.otus.wsq.messagesystem.MessageToFrontend;
-import ru.otus.wsq.servlet.websocket.MessageWebSocket;
+import ru.otus.wsq.app.MessageToFrontend;
 import java.io.IOException;
 
 @Data

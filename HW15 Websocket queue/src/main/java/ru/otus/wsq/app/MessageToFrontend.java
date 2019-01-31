@@ -1,6 +1,8 @@
-package ru.otus.wsq.messagesystem;
+package ru.otus.wsq.app;
 
-import ru.otus.wsq.servlet.websocket.MessageWebSocket;
+import ru.otus.wsq.messagesystem.Address;
+import ru.otus.wsq.messagesystem.Addressee;
+import ru.otus.wsq.messagesystem.Message;
 
 public abstract class MessageToFrontend extends Message {
     public MessageToFrontend(Address from, Address to) {

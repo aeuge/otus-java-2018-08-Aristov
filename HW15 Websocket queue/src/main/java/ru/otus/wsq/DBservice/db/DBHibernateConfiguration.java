@@ -1,4 +1,4 @@
-package ru.otus.wsq.db;
+package ru.otus.wsq.DBservice.db;
 
 import org.hibernate.cfg.Configuration;
 import ru.otus.wsq.dataset.*;

@@ -1,13 +1,14 @@
-package ru.otus.wsq.DBservice;
+package ru.otus.wsq.app;
 
 import ru.otus.wsq.dataset.DataSet;
+import ru.otus.wsq.messagesystem.Addressee;
 import ru.otus.wsq.messagesystem.MessageSystem;
 
 import java.sql.SQLException;
 import java.util.Collection;
 import java.util.List;
 
-public interface DBService extends AutoCloseable {
+public interface DBService extends AutoCloseable, Addressee {
     String getLocalStatus();
 
     <T extends DataSet> void save(T dataset);

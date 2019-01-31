@@ -14,7 +14,7 @@
     <bean id="messageSystem" class="ru.otus.wsq.messagesystem.MessageSystemImpl">
     </bean>
 
-    <bean id="messageSystemContext" class="ru.otus.wsq.messagesystem.MessageSystemContext">
+    <bean id="messageSystemContext" class="ru.otus.wsq.app.MessageSystemContext">
         <constructor-arg ref="messageSystem"/>
     </bean>
 
@@ -27,7 +27,7 @@
     <bean id="templateProcessor" class="ru.otus.wsq.servlet.TemplateProcessor">
     </bean>
 
-    <bean id="dbDataInitializer" class="ru.otus.wsq.db.DBDataInitializer">
+    <bean id="dbDataInitializer" class="ru.otus.wsq.DBservice.db.DBDataInitializer">
         <constructor-arg ref="dbService"/>
     </bean>
 </beans>

@@ -12,7 +12,7 @@ import java.util.concurrent.ConcurrentHashMap;
  * @author v.chibrikov
  */
 public class MessageWebSocketCreator implements WebSocketCreator {
-    private Set<MessageWebSocket> users;
+    private Set<MessageWebSocketImpl> users;
 
     public MessageWebSocketCreator() {
         this.users = Collections.newSetFromMap(new ConcurrentHashMap<>());
@@ -21,7 +21,7 @@ public class MessageWebSocketCreator implements WebSocketCreator {
 
     @Override
     public Object createWebSocket(ServletUpgradeRequest req, ServletUpgradeResponse resp) {
-        MessageWebSocket socket = new MessageWebSocket(users);
+        MessageWebSocketImpl socket = new MessageWebSocketImpl(users);
         System.out.println("Socket created");
         return socket;
     }

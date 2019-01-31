@@ -1,11 +1,8 @@
 package ru.otus.wsq.servlet;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.beans.factory.annotation.Configurable;
-import org.springframework.context.ApplicationContext;
-import org.springframework.context.support.ClassPathXmlApplicationContext;
 import org.springframework.web.context.support.SpringBeanAutowiringSupport;
-import ru.otus.wsq.DBservice.DBService;
+import ru.otus.wsq.app.DBService;
 
 import javax.servlet.ServletConfig;
 import javax.servlet.ServletException;

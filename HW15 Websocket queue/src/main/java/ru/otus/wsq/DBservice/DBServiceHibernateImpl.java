@@ -7,20 +7,21 @@ import org.hibernate.boot.registry.StandardServiceRegistryBuilder;
 import org.hibernate.cfg.Configuration;
 import org.hibernate.service.ServiceRegistry;
 import org.springframework.stereotype.Service;
+import ru.otus.wsq.app.DBService;
 import ru.otus.wsq.cache.CacheElement;
 import ru.otus.wsq.cache.CacheEngine;
 import ru.otus.wsq.dao.UsersHibernateDAO;
 import ru.otus.wsq.dataset.*;
-import ru.otus.wsq.db.DBHibernateConfiguration;
+import ru.otus.wsq.DBservice.db.DBHibernateConfiguration;
 import ru.otus.wsq.messagesystem.Address;
 import ru.otus.wsq.messagesystem.Addressee;
 import ru.otus.wsq.messagesystem.MessageSystem;
-import ru.otus.wsq.messagesystem.MessageSystemContext;
+import ru.otus.wsq.app.MessageSystemContext;
 import java.util.List;
 import java.util.function.Function;
 
 @Service
-public class DBServiceHibernateImpl implements DBService, Addressee {
+public class DBServiceHibernateImpl implements DBService {
     private Address address;
     private SessionFactory sessionFactory;
     private CacheEngine<Long, UsersDataSet> cache;

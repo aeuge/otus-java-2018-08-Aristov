@@ -1,6 +1,8 @@
-package ru.otus.wsq.messagesystem;
+package ru.otus.wsq.app;
 
 import lombok.Data;
+import ru.otus.wsq.messagesystem.Address;
+import ru.otus.wsq.messagesystem.MessageSystem;
 
 @Data
 public class MessageSystemContext {

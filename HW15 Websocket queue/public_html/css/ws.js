@@ -1,7 +1,15 @@
 var ws;
 
+function getWebSocketPath(appendix) {
+    var host = window.location.host;
+    var pathArray = window.location.pathname.split( '/' );
+    pathArray.pop();
+        return "ws://" + host + pathArray.join("/") + "/" + appendix;
+
+}
+
 init = function () {
-    ws = new WebSocket("ws://localhost:8080/HW15-wsq/message");
+    ws = new WebSocket(getWebSocketPath("message"));
     ws.onopen = function (event) {
 
     }
