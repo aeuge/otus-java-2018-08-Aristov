@@ -18,7 +18,7 @@ public class MessageWS extends MessageToFrontend {
     @Override
     public void exec(MessageWebSocket mws) {
         try {
-            mws.getSession().getRemote().sendString(message);
+            mws.getSession().getBasicRemote().sendText(message);
             System.out.println("sending message to frontend");
         } catch (IOException e) {
             e.printStackTrace();

@@ -1,36 +1,33 @@
 package ru.otus.wsq.servlet.websocket;
 
-import org.eclipse.jetty.websocket.api.Session;
-import org.eclipse.jetty.websocket.api.annotations.OnWebSocketClose;
-import org.eclipse.jetty.websocket.api.annotations.OnWebSocketConnect;
-import org.eclipse.jetty.websocket.api.annotations.OnWebSocketMessage;
-import org.eclipse.jetty.websocket.api.annotations.WebSocket;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.context.support.SpringBeanAutowiringSupport;
 import ru.otus.wsq.app.MessageSystemContext;
 import ru.otus.wsq.app.MessageWebSocket;
 import ru.otus.wsq.messagesystem.*;
 import ru.otus.wsq.app.messages.MessageDB;
-import java.util.Set;
+import javax.websocket.*;
+import javax.websocket.server.ServerEndpoint;
+import java.util.Queue;
+import java.util.concurrent.ConcurrentLinkedQueue;
 
-@WebSocket
+@ServerEndpoint("/message")
 public class MessageWebSocketImpl implements MessageWebSocket {
     private Address address;
-    private Set<MessageWebSocketImpl> users;
+    private Queue<MessageWebSocketImpl> users = new ConcurrentLinkedQueue<>();
     private Session session;
 
     @Autowired
     private MessageSystemContext context;
 
-    public MessageWebSocketImpl(Set<MessageWebSocketImpl> users) {
-        this.users = users;
+    public MessageWebSocketImpl() {
         address = new Address();
         SpringBeanAutowiringSupport.processInjectionBasedOnCurrentContext(this);
         System.out.println("mws created");
         context.getMessageSystem().addAddressee(this);
     }
 
-    @OnWebSocketMessage
+    @OnMessage
     public void onMessage(String data) {
         try {
             Message message = new MessageDB(getAddress(),context.getDbAddress(),data);
@@ -41,7 +38,7 @@ public class MessageWebSocketImpl implements MessageWebSocket {
         }
     }
 
-    @OnWebSocketConnect
+    @OnOpen
     public void onOpen(Session session) {
         users.add(this);
         setSession(session);
@@ -56,8 +53,8 @@ public class MessageWebSocketImpl implements MessageWebSocket {
         this.session = session;
     }
 
-    @OnWebSocketClose
-    public void onClose(int statusCode, String reason) {
+    @OnClose
+    public void onClose() {
         users.remove(this);
         context.getMessageSystem().endThread(this);
         System.out.println("onClose");
