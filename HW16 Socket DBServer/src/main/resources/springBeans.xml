@@ -1,0 +1,22 @@
+<beans xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xmlns="http://www.springframework.org/schema/beans"
+       xsi:schemaLocation="http://www.springframework.org/schema/beans
+	http://www.springframework.org/schema/beans/spring-beans-3.0.xsd">
+
+
+    <bean id="cacheEngine" class="ru.otus.socket.sdbs.cache.CacheEngineImpl">
+        <constructor-arg value="100000"/>
+        <constructor-arg value="300000"/>
+        <constructor-arg value="0"/>
+        <constructor-arg value="false"/>
+    </bean>
+
+    <bean id="dbService" class="ru.otus.socket.sdbs.DBservice.DBServiceHibernateImpl">
+        <constructor-arg ref="cacheEngine"/>
+        <constructor-arg value="DBService"/>
+    </bean>
+
+    <bean id="dbDataInitializer" class="ru.otus.socket.sdbs.DBservice.db.DBDataInitializer">
+        <constructor-arg ref="dbService"/>
+    </bean>
+</beans>

@@ -1,0 +1,56 @@
+<html><head><meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+    <link href="css/bootstrap.css" rel="stylesheet">
+    <script type="text/javascript" src="css/ws.js" ></script>
+    <link href="css/auth.css" rel="stylesheet">
+    <title>Изменение пользователей</title></head>
+<body onload="init();"><div class="TitleTop">Изменение пользователей</div>
+<div class="text-white">
+<h1 class="zapros">Все записи:</h1>
+    <#list Users>
+        <table class="text-white" width="1000"><tr ><td width="10%">ID</td><td width="10%">Имя</td><td width="10%">Возраст</td><td width="20%">Адрес</td><td>Телефоны</td></tr>
+            <#items as user>
+            <tr>
+                <td>${user.id}</td>
+                <td>${user.name}</td>
+                <td>${user.age}</td>
+                <td>${user.address.street}</td>
+                <td> <#list user.phones as phones>
+                        ${phones.number}<#sep>, </#sep>
+                    </#list>
+                </td>
+            </tr>
+            </#items>
+            </table>
+    <#else>
+    </#list>
+</div>
+
+<div class="text-white">
+    <h1 class="zapros">Количество пользователей в базе: ${numberOfUsers}</h1>
+    <h1 class="zapros">Количество закешированных пользователей в базе: ${numberOfCachedUsers}</h1>
+</div>
+<div class="idUserDataSet">
+    <form method="post" action="">
+    <input type="text" id="idws" placeholder="Введите ID пользователя" required="required">
+    <input type="button" name="submitmsg" class="btn btn-primary btn-block btn-large" value="Поиск через вебсокет и очередь" onclick="sendMessage();"/>
+        <h3 id="resultws" class="text-white"></h3>
+    </form>
+</div>
+<div class="idUserDataSet">
+    <form method="post" action="info">
+      <input type="text" name="id" placeholder="Введите ID пользователя" required="required">
+      <button type="submit" class="btn btn-primary btn-block btn-large">Выполнить поиск по заданному ID</button>
+    </form>
+</div>
+<div class="idUserDataSet text-white">
+    <h1 class="zapros">Добавьте нового пользователя:</h1>
+    <form method="post" action="newuser">
+        <input type="text" name="name" placeholder="Имя пользователя" required="required">
+        <input type="text" name="age" placeholder="Возраст пользователя">
+        <input type="text" name="address" placeholder="Адрес пользователя">
+        <input type="text" name="phones" placeholder="Телефоны пользователя через ;">
+        <button type="submit" class="btn btn-primary btn-block btn-large">Добавить пользователя</button>
+    </form>
+</div>
+</body>
+</html>
