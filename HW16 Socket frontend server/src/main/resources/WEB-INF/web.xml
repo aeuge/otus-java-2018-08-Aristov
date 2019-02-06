@@ -1,0 +1,60 @@
+<?xml version="1.0" encoding="ISO-8859-1"?>
+
+<web-app>
+
+    <display-name>HW16-socket application</display-name>
+    <description>Socket multiprocess application</description>
+
+    <context-param>
+        <param-name>contextConfigLocation</param-name>
+        <param-value>classpath:springBeans.xml</param-value>
+    </context-param>
+    <listener>
+        <listener-class>org.springframework.web.context.ContextLoaderListener</listener-class>
+    </listener>
+    <servlet>
+        <servlet-name>infoServlet</servlet-name>
+        <servlet-class>ru.otus.socket.sfs.servlet.InfoServlet</servlet-class>
+    </servlet>
+
+    <servlet-mapping>
+        <servlet-name>infoServlet</servlet-name>
+        <url-pattern>/info</url-pattern>
+    </servlet-mapping>
+
+    <servlet>
+        <servlet-name>indexServlet</servlet-name>
+        <servlet-class>ru.otus.socket.sfs.servlet.IndexServlet</servlet-class>
+    </servlet>
+
+    <servlet-mapping>
+        <servlet-name>indexServlet</servlet-name>
+        <url-pattern>/index</url-pattern>
+    </servlet-mapping>
+
+    <servlet>
+        <servlet-name>newuserServlet</servlet-name>
+        <servlet-class>ru.otus.socket.sfs.servlet.NewUserServlet</servlet-class>
+    </servlet>
+
+    <servlet-mapping>
+        <servlet-name>newuserServlet</servlet-name>
+        <url-pattern>/newuser</url-pattern>
+    </servlet-mapping>
+
+    <servlet>
+        <servlet-name>adminServlet</servlet-name>
+        <servlet-class>ru.otus.socket.sfs.servlet.AdminServlet</servlet-class>
+    </servlet>
+
+    <servlet-mapping>
+        <servlet-name>adminServlet</servlet-name>
+        <url-pattern>/admin</url-pattern>
+    </servlet-mapping>
+
+    <welcome-file-list>
+        <welcome-file>index.htm</welcome-file>
+    </welcome-file-list>
+
+</web-app>
+
