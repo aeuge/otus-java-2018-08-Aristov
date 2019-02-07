@@ -1,10 +1,8 @@
 package ru.otus.socket.sfs.servlet.websocket;
 
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.context.support.SpringBeanAutowiringSupport;
 import ru.otus.socket.sms.channel.ManagedMsgSocketWorker;
 import ru.otus.socket.sms.channel.SocketMsgWorker;
-import ru.otus.socket.sms.dataset.UsersDataSet;
 import ru.otus.socket.sms.messagesystem.Address;
 import ru.otus.socket.sms.messagesystem.Message;
 

@@ -2,9 +2,6 @@ package ru.otus.socket.sms.runner;
 
 import java.io.IOException;
 
-/**
- * Created by tully.
- */
 public interface ProcessRunner {
     void start(String command) throws IOException;
 

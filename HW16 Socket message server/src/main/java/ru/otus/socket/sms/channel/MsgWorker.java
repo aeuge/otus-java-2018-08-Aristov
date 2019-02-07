@@ -5,9 +5,6 @@ import ru.otus.socket.sms.messagesystem.Message;
 import java.io.Closeable;
 import java.io.IOException;
 
-/**
- * Created by tully.
- */
 public interface MsgWorker extends Closeable {
     void send(Message msg);
 

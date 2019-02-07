@@ -7,9 +7,6 @@ import java.io.InputStreamReader;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
-/**
- * Created by tully.
- */
 public class ProcessRunnerImpl implements ProcessRunner {
     private final StringBuffer out = new StringBuffer();
     private Process process;

@@ -9,6 +9,7 @@ import java.io.IOException;
 import java.io.InputStreamReader;
 import java.io.PrintWriter;
 import java.net.Socket;
+import java.nio.charset.StandardCharsets;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.concurrent.BlockingQueue;
@@ -18,9 +19,6 @@ import java.util.concurrent.LinkedBlockingQueue;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
-/**
- * Created by tully.
- */
 public class SocketMsgWorker implements MsgWorker {
     private static final Logger logger = Logger.getLogger(SocketMsgWorker.class.getName());
     private static final int WORKERS_COUNT = 2;
@@ -73,7 +71,7 @@ public class SocketMsgWorker implements MsgWorker {
 
     //@Blocks
     private void receiveMessage() {
-        try (BufferedReader in = new BufferedReader(new InputStreamReader(socket.getInputStream()))) {
+        try (BufferedReader in = new BufferedReader(new InputStreamReader(socket.getInputStream(), "UTF8"))) {
             String inputLine;
             StringBuilder stringBuilder = new StringBuilder();
             while ((inputLine = in.readLine()) != null) {
@@ -97,7 +95,7 @@ public class SocketMsgWorker implements MsgWorker {
     }
 
     private void sendMessage() {
-        try (PrintWriter out = new PrintWriter(socket.getOutputStream(), true)) {
+        try (PrintWriter out = new PrintWriter(socket.getOutputStream(), true, StandardCharsets.UTF_8)) {
             while (socket.isConnected()) {
                 Message msg = output.take(); //blocks
                 String json = new Gson().toJson(msg);

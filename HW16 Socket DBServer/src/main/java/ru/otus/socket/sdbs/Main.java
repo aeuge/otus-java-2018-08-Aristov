@@ -1,5 +1,9 @@
 package ru.otus.socket.sdbs;
 
+import com.google.gson.ExclusionStrategy;
+import com.google.gson.FieldAttributes;
+import com.google.gson.Gson;
+import com.google.gson.GsonBuilder;
 import org.springframework.context.ApplicationContext;
 import org.springframework.context.support.ClassPathXmlApplicationContext;
 import ru.otus.socket.sms.dataset.UsersDataSet;
@@ -46,8 +50,11 @@ public class Main {
                     UsersDataSet uds = dbService.read(Integer.decode(msg.getMessage()),UsersDataSet.class);
                     if (uds==null) {
                         messageToFrontend.setMessage("Объекта с таким ID не существует");
-                    } else
-                        messageToFrontend.setMessage(uds.toString());
+                    } else {
+                        Gson gson = new GsonBuilder().setExclusionStrategies(new PhoneUserDataSetExcluder()).create();
+                        String json = gson.toJson(uds);
+                        messageToFrontend.setMessage(json);
+                    }
                     client.send(messageToFrontend);
                     System.out.println("put message to WS");
                 }
@@ -56,5 +63,15 @@ public class Main {
             }
         });
     }
+    class PhoneUserDataSetExcluder implements ExclusionStrategy {
+        @Override
+        public boolean shouldSkipField(FieldAttributes f) {
+            return f.getDeclaredType().equals(UsersDataSet.class);
+        }
 
+        @Override
+        public boolean shouldSkipClass(Class<?> aClass) {
+            return false;
+        }
+    }
 }
