@@ -6,6 +6,7 @@ import ru.otus.socket.sms.runner.ProcessRunnerImpl;
 import ru.otus.socket.sms.server.SocketMsgServer;
 import java.io.IOException;
 import java.nio.file.Files;
+import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.nio.file.StandardCopyOption;
 import java.util.concurrent.Executors;
@@ -18,28 +19,36 @@ public class ServerMain {
     private static final Logger logger = Logger.getLogger(ServerMain.class.getName());
 
     private static final String DBSERVER_START_COMMAND = "java -jar ../\"HW16 Socket DBServer\"/target/sdbs-jar-with-dependencies.jar";
-    private static final String WAR_FILE = "c:/Otus/DZ/HW16 Socket frontend server/target/HW16-sfs.war";
-    private static final String WAR_DESTINATION = "c:/apps/apache-tomcat-8.5.37/webapps/";
-    private static final String TOMCAT_SERVER = "cmd.exe /K c:/apps/apache-tomcat-8.5.37/bin/startup.bat";
-    private static final String TOMCAT_SERVER_HOME = "set CATALINA_HOME=c:/apps/apache-tomcat-8.5.37";
+    private static final String WAR_FILE = "/HW16 Socket frontend server/target/HW16-sfs.war";
+    private static final String WAR_DESTINATION = "/webapps/";
+    private static final String BAT_RUNNER = "cmd.exe /K ";
 
-    private static final String temp = "cmd.exe /K \"echo %JAVA_HOME%\"";
-
+    private static final String TOMCAT_SERVER = "/bin/startup.bat";
+    private static String CATALINE_HOME = "c:/apps/apache-tomcat-8.5.37";
+    private static String APP_HOME = "";
     private static final int CLIENT_START_DELAY_SEC = 2;
     public SocketMsgServer server;
 
     public static void main(String[] args) throws Exception {
+        if (args.length>0) CATALINE_HOME = args[0];
         new ServerMain().start();
     }
 
     private void start() throws Exception {
         ApplicationContext context = new ClassPathXmlApplicationContext("springBeans.xml");
         server = (SocketMsgServer) context.getBean("socketMsgServer");
-
+        Path currentRelativePath = Paths.get("");
+        String s = currentRelativePath.toAbsolutePath().toString();
+        String[] ss = s.replace("\\","/").split("/");
+        s = ss[0];
+        for (int i = 1; i < ss.length-1 ; i++) {
+            s = s + "/" + ss[i];
+        }
+        APP_HOME = s;
+        System.out.println("Current relative path is: " + s);
         ScheduledExecutorService executorService = Executors.newSingleThreadScheduledExecutor();
-        Files.copy(Paths.get(WAR_FILE), Paths.get(WAR_DESTINATION + "ROOT.war"), StandardCopyOption.REPLACE_EXISTING);
-        //startClient(TOMCAT_SERVER_HOME, executorService);
-        startClient(TOMCAT_SERVER, executorService);
+        Files.copy(Paths.get(APP_HOME + WAR_FILE), Paths.get(CATALINE_HOME + WAR_DESTINATION + "ROOT.war"), StandardCopyOption.REPLACE_EXISTING);
+        startClient(BAT_RUNNER + CATALINE_HOME + TOMCAT_SERVER, executorService);
         startClient(DBSERVER_START_COMMAND, executorService);
         server.start();
         executorService.shutdown();
