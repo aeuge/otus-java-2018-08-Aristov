@@ -38,9 +38,9 @@ public class ServerMain {
 
         ScheduledExecutorService executorService = Executors.newSingleThreadScheduledExecutor();
         Files.copy(Paths.get(WAR_FILE), Paths.get(WAR_DESTINATION + "ROOT.war"), StandardCopyOption.REPLACE_EXISTING);
-        startClient(TOMCAT_SERVER_HOME, executorService);
+        //startClient(TOMCAT_SERVER_HOME, executorService);
         startClient(TOMCAT_SERVER, executorService);
-        //startClient(DBSERVER_START_COMMAND, executorService);
+        startClient(DBSERVER_START_COMMAND, executorService);
         server.start();
         executorService.shutdown();
     }
