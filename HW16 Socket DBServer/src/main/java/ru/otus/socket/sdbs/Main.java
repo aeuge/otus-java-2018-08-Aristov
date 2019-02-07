@@ -1,9 +1,12 @@
 package ru.otus.socket.sdbs;
 
-import org.springframework.beans.factory.annotation.Autowired;
-import ru.otus.socket.sdbs.dataset.UsersDataSet;
+import org.springframework.context.ApplicationContext;
+import org.springframework.context.support.ClassPathXmlApplicationContext;
+import ru.otus.socket.sms.dataset.UsersDataSet;
 import ru.otus.socket.sdbs.DBservice.DBService;
+import ru.otus.socket.sms.channel.ManagedMsgSocketWorker;
 import ru.otus.socket.sms.channel.SocketMsgWorker;
+import ru.otus.socket.sms.messagesystem.Address;
 import ru.otus.socket.sms.messagesystem.Message;
 
 import java.sql.SQLException;
@@ -14,10 +17,10 @@ import java.util.logging.Logger;
 
 public class Main {
     private static final Logger logger = Logger.getLogger(Main.class.getName());
+    private Address address;
 
     private static final String HOST = "localhost";
     private static final int PORT = 5050;
-    @Autowired
     private DBService dbService;
 
     public static void main(String[] args) throws Exception {
@@ -26,9 +29,13 @@ public class Main {
 
     @SuppressWarnings("InfiniteLoopStatement")
     private void start() throws Exception {
+        ApplicationContext context = new ClassPathXmlApplicationContext("springBeansDB.xml");
+        dbService = (DBService) context.getBean("dbService");
+        address = dbService.getAddress();
+
 
         SocketMsgWorker client = new ManagedMsgSocketWorker(HOST, PORT);
-        client.init();
+        client.init(address);
 
         ExecutorService executorService = Executors.newSingleThreadExecutor();
         executorService.submit(() -> {

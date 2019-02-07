@@ -1,7 +1,5 @@
 package ru.otus.socket.sms.runner;
 
-import ru.otus.socket.sms.app.ProcessRunner;
-
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStream;

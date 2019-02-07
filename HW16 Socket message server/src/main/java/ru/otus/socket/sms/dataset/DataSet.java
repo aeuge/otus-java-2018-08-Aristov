@@ -1,4 +1,4 @@
-package ru.otus.socket.sdbs.dataset;
+package ru.otus.socket.sms.dataset;
 
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;

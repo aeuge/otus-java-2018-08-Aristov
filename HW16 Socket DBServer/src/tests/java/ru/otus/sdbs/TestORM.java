@@ -20,7 +20,7 @@ import java.util.List;
 
 
 @ExtendWith(SpringExtension.class)
-@ContextConfiguration("classpath:springBeans.xml")
+@ContextConfiguration("classpath:springBeansDB.xml")
 @DisplayName("Тестирование DAO пользователей")
 public class TestORM {
     private static Logger logger = LoggerFactory.getLogger(TestORM.class);

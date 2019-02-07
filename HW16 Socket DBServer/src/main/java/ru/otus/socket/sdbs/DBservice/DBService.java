@@ -1,6 +1,8 @@
 package ru.otus.socket.sdbs.DBservice;
 
-import ru.otus.socket.sdbs.dataset.DataSet;
+import org.apache.log4j.lf5.util.AdapterLogRecord;
+import ru.otus.socket.sms.dataset.DataSet;
+import ru.otus.socket.sms.messagesystem.Address;
 
 import java.sql.SQLException;
 import java.util.List;
@@ -17,5 +19,7 @@ public interface DBService extends AutoCloseable {
     <T extends DataSet> List<T> readAll(Class<T> clazz);
 
     int getCacheCount();
+
+    Address getAddress();
 
 }

@@ -7,7 +7,4 @@
     <bean id="templateProcessor" class="ru.otus.socket.sfs.servlet.TemplateProcessor">
     </bean>
 
-    <bean id="socketMsgServer" class="ru.otus.socket.sfs.server.SocketMsgServerImpl">
-    </bean>
-
 </beans>

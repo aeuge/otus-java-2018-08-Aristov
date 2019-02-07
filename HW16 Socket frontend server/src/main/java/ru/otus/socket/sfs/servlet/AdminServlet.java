@@ -3,6 +3,7 @@ package ru.otus.socket.sfs.servlet;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Configurable;
 import org.springframework.web.context.support.SpringBeanAutowiringSupport;
+import ru.otus.socket.sms.dataset.UsersDataSet;
 
 import javax.servlet.ServletConfig;
 import javax.servlet.ServletException;
@@ -11,6 +12,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 import java.util.HashMap;
+import java.util.LinkedList;
 import java.util.Map;
 
 @Configurable
@@ -36,9 +38,9 @@ public class AdminServlet extends HttpServlet {
         Map<String, Object> pageVariables = new HashMap<>();
         //List<UsersDataSet> uds = this.dbService.readAll(UsersDataSet.class);
         numberOfUsers = 1;//uds.size();
-        pageVariables.put(VARIABLE_USERS, null);
+        pageVariables.put(VARIABLE_USERS, new LinkedList<UsersDataSet>());
         pageVariables.put(VARIABLE_NUMBER_OF_USERS, numberOfUsers);
-        pageVariables.put(VARIABLE_NUMBER_OF_CACHED_USERS, 1);//dbService.getCacheCount());
+        pageVariables.put(VARIABLE_NUMBER_OF_CACHED_USERS, 0);//dbService.getCacheCount());
         return pageVariables;
     }
 

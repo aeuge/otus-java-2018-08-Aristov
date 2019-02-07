@@ -1,8 +1,0 @@
-package ru.otus.socket.sms.messagesystem;
-
-public interface MessageSystem {
-    void addAddressee(Addressee addressee);
-    void sendMessage(Message message);
-    void endThread(Addressee addressee);
-    void dispose();
-}

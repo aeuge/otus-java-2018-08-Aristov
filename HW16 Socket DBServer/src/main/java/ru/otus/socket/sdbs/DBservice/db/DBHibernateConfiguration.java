@@ -1,9 +1,9 @@
 package ru.otus.socket.sdbs.DBservice.db;
 
 import org.hibernate.cfg.Configuration;
-import ru.otus.socket.sdbs.dataset.AddressDataSet;
-import ru.otus.socket.sdbs.dataset.PhoneDataSet;
-import ru.otus.socket.sdbs.dataset.UsersDataSet;
+import ru.otus.socket.sms.dataset.AddressDataSet;
+import ru.otus.socket.sms.dataset.PhoneDataSet;
+import ru.otus.socket.sms.dataset.UsersDataSet;
 
 public class DBHibernateConfiguration {
     public static Configuration fill() {

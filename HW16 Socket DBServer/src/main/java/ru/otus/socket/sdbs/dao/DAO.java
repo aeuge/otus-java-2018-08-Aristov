@@ -1,6 +1,6 @@
 package ru.otus.socket.sdbs.dao;
 
-import ru.otus.socket.sdbs.dataset.DataSet;
+import ru.otus.socket.sms.dataset.DataSet;
 
 import java.util.List;
 

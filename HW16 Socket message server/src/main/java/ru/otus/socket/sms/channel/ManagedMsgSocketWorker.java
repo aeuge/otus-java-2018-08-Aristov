@@ -1,16 +1,15 @@
-package ru.otus.socket.sdbs;
-
-import ru.otus.socket.sms.channel.SocketMsgWorker;
+package ru.otus.socket.sms.channel;
 
 import java.io.IOException;
 import java.net.Socket;
 
-class ManagedMsgSocketWorker extends SocketMsgWorker {
+public class ManagedMsgSocketWorker extends SocketMsgWorker {
 
     private final Socket socket;
 
-    ManagedMsgSocketWorker(String host, int port) throws IOException {
+    public ManagedMsgSocketWorker(String host, int port) throws IOException {
         this(new Socket(host, port));
+        if (socket.isConnected()) System.out.println("connection established successfully");
     }
 
     private ManagedMsgSocketWorker(Socket socket) {

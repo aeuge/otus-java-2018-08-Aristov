@@ -1,4 +1,4 @@
-package ru.otus.socket.sms.app;
+package ru.otus.socket.sms.runner;
 
 import java.io.IOException;
 

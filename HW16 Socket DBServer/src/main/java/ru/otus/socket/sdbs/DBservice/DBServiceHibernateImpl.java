@@ -11,8 +11,8 @@ import ru.otus.socket.sdbs.cache.CacheElement;
 import ru.otus.socket.sdbs.cache.CacheEngine;
 import ru.otus.socket.sdbs.dao.UsersHibernateDAO;
 import ru.otus.socket.sdbs.DBservice.db.DBHibernateConfiguration;
-import ru.otus.socket.sdbs.dataset.DataSet;
-import ru.otus.socket.sdbs.dataset.UsersDataSet;
+import ru.otus.socket.sms.dataset.DataSet;
+import ru.otus.socket.sms.dataset.UsersDataSet;
 import ru.otus.socket.sms.messagesystem.Address;
 
 import java.util.List;
@@ -20,6 +20,7 @@ import java.util.function.Function;
 
 @Service
 public class DBServiceHibernateImpl implements DBService {
+
     private Address address;
     private SessionFactory sessionFactory;
     private CacheEngine<Long, UsersDataSet> cache;
@@ -94,5 +95,15 @@ public class DBServiceHibernateImpl implements DBService {
     public void close() throws Exception {
         sessionFactory.close();
     }
+
+    @Override
+    public Address getAddress() {
+        return address;
+    }
+
+    public void setAddress(Address address) {
+        this.address = address;
+    }
+
 
 }

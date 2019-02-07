@@ -1,5 +1,8 @@
 package ru.otus.socket.sms.server;
 
+import com.google.gson.Gson;
+import ru.otus.socket.sms.messagesystem.Message;
+
 import java.io.IOException;
 import java.net.InetSocketAddress;
 import java.nio.ByteBuffer;
@@ -31,10 +34,12 @@ public class SocketMsgServerImpl implements SocketMsgServer {
 
     private final ExecutorService executor;
     private final Map<String, ChannelMessages> channelMessages;
+    private final Map<String, String> adressee;
 
     public SocketMsgServerImpl() {
         executor = Executors.newFixedThreadPool(THREADS_NUMBER);
         channelMessages = new ConcurrentHashMap<>();
+        adressee = new ConcurrentHashMap<>();
     }
 
     @SuppressWarnings("InfiniteLoopStatement")
@@ -75,7 +80,12 @@ public class SocketMsgServerImpl implements SocketMsgServer {
                             if (read != -1) {
                                 String result = new String(buffer.array()).trim();
                                 System.out.println("Message received: " + result + " from: " + channel.getRemoteAddress());
-                                channelMessages.get(channel.getRemoteAddress().toString()).messages.add(result);
+                                Message msg = new Gson().fromJson(result, Message.class);
+                                if (msg.getFrom().getId().equals("init")) {
+                                    adressee.put(msg.getTo().getId(),channel.getRemoteAddress().toString());
+                                } else {
+                                    channelMessages.get(adressee.get(msg.getTo().getId())).messages.add(result);
+                                }
                             } else {
                                 key.cancel();
                                 String remoteAddress = channel.getRemoteAddress().toString();

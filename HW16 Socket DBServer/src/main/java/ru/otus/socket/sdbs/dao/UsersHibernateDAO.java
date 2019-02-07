@@ -2,7 +2,7 @@ package ru.otus.socket.sdbs.dao;
 
 import org.hibernate.Session;
 import org.hibernate.query.Query;
-import ru.otus.socket.sdbs.dataset.DataSet;
+import ru.otus.socket.sms.dataset.DataSet;
 
 import javax.persistence.criteria.CriteriaBuilder;
 import javax.persistence.criteria.CriteriaQuery;

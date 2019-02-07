@@ -3,17 +3,6 @@
        xsi:schemaLocation="http://www.springframework.org/schema/beans
 	http://www.springframework.org/schema/beans/spring-beans-3.0.xsd">
 
-
-    <bean id="messageSystem" class="ru.otus.socket.sms.messagesystem.MessageSystemImpl">
-    </bean>
-
-    <bean id="messageSystemContext" class="ru.otus.socket.sms.app.MessageSystemContext">
-        <constructor-arg ref="messageSystem"/>
-    </bean>
-
-    <bean id="templateProcessor" class="ru.otus.socket.sms.servlet.TemplateProcessor">
-    </bean>
-
     <bean id="socketMsgServer" class="ru.otus.socket.sms.server.SocketMsgServerImpl">
     </bean>
 

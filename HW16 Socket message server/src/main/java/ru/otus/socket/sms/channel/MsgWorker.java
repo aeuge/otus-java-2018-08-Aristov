@@ -1,4 +1,4 @@
-package ru.otus.socket.sms.app;
+package ru.otus.socket.sms.channel;
 
 import ru.otus.socket.sms.messagesystem.Message;
 

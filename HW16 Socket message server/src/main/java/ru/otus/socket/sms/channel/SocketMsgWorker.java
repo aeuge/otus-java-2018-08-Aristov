@@ -1,10 +1,7 @@
 package ru.otus.socket.sms.channel;
 
 import com.google.gson.Gson;
-import org.json.simple.JSONObject;
-import org.json.simple.parser.JSONParser;
-import org.json.simple.parser.ParseException;
-import ru.otus.socket.sms.app.MsgWorker;
+import ru.otus.socket.sms.messagesystem.Address;
 import ru.otus.socket.sms.messagesystem.Message;
 
 import java.io.BufferedReader;
@@ -64,9 +61,10 @@ public class SocketMsgWorker implements MsgWorker {
         executor.shutdown();
     }
 
-    public void init() {
+    public void init(Address address) {
         executor.execute(this::sendMessage);
         executor.execute(this::receiveMessage);
+        send(new Message(new Address("init"),address,""));
     }
 
     public void addShutdownRegistration(Runnable runnable) {
