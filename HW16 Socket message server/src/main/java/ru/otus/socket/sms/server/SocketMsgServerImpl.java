@@ -84,7 +84,13 @@ public class SocketMsgServerImpl implements SocketMsgServer {
                                 if (msg.getFrom().getId().equals("init")) {
                                     adressee.put(msg.getTo().getId(),channel.getRemoteAddress().toString());
                                 } else {
-                                    channelMessages.get(adressee.get(msg.getTo().getId())).messages.add(result);
+                                    try {
+                                        channelMessages.get(adressee.get(msg.getTo().getId())).messages.add(result);
+                                    } catch (Exception e) {
+                                        channelMessages.get(adressee.get(msg.getFrom().getId())).messages.add(result);
+                                        logger.log(Level.SEVERE, "Нет адресата с таким именем");
+                                    }
+
                                 }
                             } else {
                                 key.cancel();
